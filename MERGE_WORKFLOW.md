@@ -10,6 +10,8 @@ Use the provided `merge-prs.sh` script to automatically merge multiple PRs:
 ./merge-prs.sh
 ```
 
+**Note:** This script uses GitHub's pull request reference format (`origin/pull/N/head`). If you're using a different Git hosting provider, you may need to modify the script accordingly.
+
 The script will:
 1. Fetch the latest changes from origin
 2. Checkout and update the main branch

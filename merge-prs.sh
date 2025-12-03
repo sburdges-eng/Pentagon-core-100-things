@@ -2,8 +2,9 @@
 
 # Script to merge multiple pull requests into main branch
 # This automates the process of merging several PRs in sequence
+# Note: This script uses GitHub's pull request reference format (origin/pull/N/head)
 
-set -e  # Exit on error
+set -e  # Exit on error (except where explicitly handled)
 
 echo "Starting PR merge process..."
 
@@ -24,7 +25,13 @@ PRS=(33 32 31 30 28 25 23 22)
 # Merge each PR
 for PR in "${PRS[@]}"; do
     echo "Merging PR #${PR}..."
-    if git merge origin/pull/${PR}/head --no-edit; then
+    # Temporarily disable exit-on-error for the merge command to handle conflicts gracefully
+    set +e
+    git merge origin/pull/${PR}/head --no-edit
+    MERGE_STATUS=$?
+    set -e
+    
+    if [ $MERGE_STATUS -eq 0 ]; then
         echo "Successfully merged PR #${PR}"
     else
         echo "ERROR: Failed to merge PR #${PR}"
