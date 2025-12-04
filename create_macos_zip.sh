@@ -55,7 +55,6 @@ if [ -f "dist/Bulling-macOS.zip" ]; then
     echo "  - Share dist/Bulling-macOS.zip"
     echo "  - Recipients: unzip and drag to Applications folder"
     echo ""
-    
     # Show file size
     zip_size=$(du -h "dist/Bulling-macOS.zip" | cut -f1)
     echo "File size: $zip_size"

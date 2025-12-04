@@ -108,12 +108,10 @@ if [ -f "dist/Bulling-iOS.zip" ]; then
     echo "  - Share dist/Bulling-iOS.zip"
     echo "  - Recipients: unzip and follow SETUP.txt instructions"
     echo ""
-    
     # Show file size
     zip_size=$(du -h "dist/Bulling-iOS.zip" | cut -f1)
     echo "File size: $zip_size"
     echo ""
-    
     # List contents (with error handling)
     echo "Contents:"
     if ! unzip -l "dist/Bulling-iOS.zip" 2>/dev/null | tail -n +4 | head -n -2; then
