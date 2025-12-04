@@ -374,6 +374,9 @@ SwiftUI is part of Apple's SDK.
 
 ## 🔗 Quick Links
 
+- **[Quick Distribution Guide](QUICK_DISTRIBUTION_GUIDE.md)** - Fast track to creating distribution zips
+- **[Distribution Scripts](DISTRIBUTION_SCRIPTS_README.md)** - Automated zip creation documentation
+- **[Distribution Guide](DISTRIBUTION_GUIDE.md)** - Complete distribution and build guide
 - **[macOS Guide](MACOS_APP_GUIDE.md)** - Detailed macOS setup and usage
 - **[iOS Guide](iOS_SETUP_GUIDE.md)** - Complete iOS development guide
 - **[Icon SVG](bulling_icon.svg)** - Bull head logo design

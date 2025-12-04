@@ -29,12 +29,24 @@ echo "📦 Packaging iOS source files..."
 # Create package structure
 mkdir -p "$package_dir"
 
+# Check if Swift files exist
+if [ ! -d "iOS/Bulling" ] || [ -z "$(ls -A iOS/Bulling/*.swift 2>/dev/null)" ]; then
+    echo "❌ No Swift files found in iOS/Bulling/"
+    rm -rf "$temp_dir"
+    exit 1
+fi
+
 # Copy iOS source files
-cp -r iOS/Bulling/*.swift "$package_dir/"
+cp iOS/Bulling/*.swift "$package_dir/"
 
 # Copy documentation relevant to iOS
-cp iOS_SETUP_GUIDE.md "$package_dir/"
-cp README.md "$package_dir/"
+if [ -f "iOS_SETUP_GUIDE.md" ]; then
+    cp iOS_SETUP_GUIDE.md "$package_dir/"
+fi
+
+if [ -f "README.md" ]; then
+    cp README.md "$package_dir/"
+fi
 
 # Create a simple setup instruction file
 cat > "$package_dir/SETUP.txt" << 'EOF'

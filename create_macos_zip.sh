@@ -16,6 +16,18 @@ echo ""
 
 # Build the macOS app first
 echo "🔨 Building macOS application..."
+
+# Check if build script exists
+if [ ! -f "build_macos_app.sh" ]; then
+    echo "❌ build_macos_app.sh not found"
+    exit 1
+fi
+
+if [ ! -x "build_macos_app.sh" ]; then
+    echo "⚠️  build_macos_app.sh is not executable, making it executable..."
+    chmod +x build_macos_app.sh
+fi
+
 ./build_macos_app.sh
 echo ""
 

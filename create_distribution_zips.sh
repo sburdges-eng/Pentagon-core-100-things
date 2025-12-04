@@ -19,6 +19,21 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     echo "🖥️  Detected macOS - will create both zips"
     echo ""
     
+    # Check if scripts exist
+    if [ ! -f "create_macos_zip.sh" ]; then
+        echo "❌ create_macos_zip.sh not found"
+        exit 1
+    fi
+    
+    if [ ! -f "create_ios_zip.sh" ]; then
+        echo "❌ create_ios_zip.sh not found"
+        exit 1
+    fi
+    
+    # Make scripts executable if needed
+    [ ! -x "create_macos_zip.sh" ] && chmod +x create_macos_zip.sh
+    [ ! -x "create_ios_zip.sh" ] && chmod +x create_ios_zip.sh
+    
     # Create macOS zip
     echo "Creating macOS distribution zip..."
     ./create_macos_zip.sh
@@ -33,6 +48,15 @@ else
     echo "⚠️  Not running on macOS - can only create iOS zip"
     echo "   (macOS app build requires macOS)"
     echo ""
+    
+    # Check if iOS script exists
+    if [ ! -f "create_ios_zip.sh" ]; then
+        echo "❌ create_ios_zip.sh not found"
+        exit 1
+    fi
+    
+    # Make script executable if needed
+    [ ! -x "create_ios_zip.sh" ] && chmod +x create_ios_zip.sh
     
     # Only create iOS zip
     echo "Creating iOS source files zip..."
