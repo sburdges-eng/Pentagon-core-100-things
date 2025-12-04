@@ -3,6 +3,21 @@
 Build script for creating standalone desktop executables for Bulling
 Supports: Windows, Linux, macOS
 Uses PyInstaller for cross-platform builds
+
+Usage:
+    python3 build_desktop_standalone.py [OPTIONS]
+
+Options:
+    --help, -h          Show this help message and exit
+    --clean             Clean previous builds before building
+    --no-clean          Don't clean previous builds (default)
+    --verbose, -v       Show verbose output
+    --version VERSION   Set version number for distribution package
+    
+Examples:
+    python3 build_desktop_standalone.py
+    python3 build_desktop_standalone.py --clean
+    python3 build_desktop_standalone.py --clean --verbose
 """
 
 import sys
@@ -10,6 +25,8 @@ import os
 import shutil
 import subprocess
 import platform
+import argparse
+import traceback
 from pathlib import Path
 
 # Project paths
@@ -31,38 +48,68 @@ if IS_WINDOWS:
 else:
     EXE_NAME = APP_NAME
 
+# Color codes for terminal output
+class Colors:
+    """ANSI color codes for terminal output"""
+    RESET = '\033[0m'
+    RED = '\033[0;31m'
+    GREEN = '\033[0;32m'
+    YELLOW = '\033[1;33m'
+    BLUE = '\033[0;34m'
+    CYAN = '\033[0;36m'
+    BOLD = '\033[1m'
+    
+    @staticmethod
+    def disable():
+        """Disable colors (when colors aren't supported)"""
+        Colors.RESET = ''
+        Colors.RED = ''
+        Colors.GREEN = ''
+        Colors.YELLOW = ''
+        Colors.BLUE = ''
+        Colors.CYAN = ''
+        Colors.BOLD = ''
+
+# Enable colors on all platforms (modern terminals support ANSI)
+# Colors can be disabled by setting NO_COLOR environment variable
+if os.environ.get('NO_COLOR'):
+    Colors.disable()
+
+# Global verbose flag
+VERBOSE = False
+
 def print_header():
     """Print build header"""
-    print("\n" + "=" * 60)
-    print(f"  Building Bulling Standalone Desktop App")
-    print(f"  Platform: {SYSTEM}")
-    print(f"  Python: {sys.version.split()[0]}")
-    print("=" * 60 + "\n")
+    print(f"\n{Colors.BLUE}{'=' * 60}{Colors.RESET}")
+    print(f"{Colors.CYAN}{Colors.BOLD}  Building Bulling Standalone Desktop App{Colors.RESET}")
+    print(f"{Colors.YELLOW}  Platform: {SYSTEM}{Colors.RESET}")
+    print(f"{Colors.YELLOW}  Python: {sys.version.split()[0]}{Colors.RESET}")
+    print(f"{Colors.BLUE}{'=' * 60}{Colors.RESET}\n")
 
 def check_requirements():
     """Check if required tools are installed"""
-    print("Checking requirements...")
+    print(f"{Colors.YELLOW}Checking requirements...{Colors.RESET}")
     
     # Check Python version
     if sys.version_info < (3, 9):
-        print("Error: Python 3.9 or higher is required")
+        print(f"{Colors.RED}Error: Python 3.9 or higher is required{Colors.RESET}")
         sys.exit(1)
     
     # Check PyInstaller
     try:
         import PyInstaller
-        print(f"✓ PyInstaller {PyInstaller.__version__}")
+        print(f"{Colors.GREEN}✓ PyInstaller {PyInstaller.__version__}{Colors.RESET}")
     except ImportError:
-        print("Error: PyInstaller is not installed")
+        print(f"{Colors.RED}Error: PyInstaller is not installed{Colors.RESET}")
         print("Install with: pip install pyinstaller")
         sys.exit(1)
     
     # Check PySide6
     try:
         import PySide6
-        print(f"✓ PySide6 installed")
+        print(f"{Colors.GREEN}✓ PySide6 installed{Colors.RESET}")
     except ImportError:
-        print("Error: PySide6 is not installed")
+        print(f"{Colors.RED}Error: PySide6 is not installed{Colors.RESET}")
         print("Install with: pip install PySide6")
         sys.exit(1)
     
@@ -70,16 +117,18 @@ def check_requirements():
 
 def clean_build_dirs():
     """Clean previous build artifacts"""
-    print("Cleaning previous builds...")
+    print(f"{Colors.YELLOW}Cleaning previous builds...{Colors.RESET}")
     for dir_path in [BUILD_DIR, DIST_DIR]:
         if dir_path.exists():
             shutil.rmtree(dir_path)
-            print(f"  Removed {dir_path}")
+            print(f"{Colors.CYAN}  Removed {dir_path}{Colors.RESET}")
     print("")
 
 def build_standalone():
     """Build standalone executable using PyInstaller"""
-    print(f"Building standalone executable for {SYSTEM}...")
+    print(f"{Colors.CYAN}{'=' * 60}{Colors.RESET}")
+    print(f"{Colors.CYAN}Building standalone executable for {SYSTEM}...{Colors.RESET}")
+    print(f"{Colors.CYAN}{'=' * 60}{Colors.RESET}\n")
     
     # PyInstaller command
     cmd = [
@@ -113,30 +162,32 @@ def build_standalone():
     ])
     
     # Run PyInstaller
-    print(f"Running: {' '.join(cmd)}")
-    print("")
+    if VERBOSE:
+        print(f"{Colors.YELLOW}Running: {' '.join(cmd)}{Colors.RESET}")
+        print("")
+    
     result = subprocess.run(cmd, cwd=PROJECT_DIR)
     
     if result.returncode != 0:
-        print("\n✗ Build failed!")
+        print(f"\n{Colors.RED}✗ Build failed!{Colors.RESET}")
         sys.exit(1)
     
-    print("\n✓ Build completed successfully!")
+    print(f"\n{Colors.GREEN}✓ Build completed successfully!{Colors.RESET}")
 
-def create_distribution_package():
+def create_distribution_package(version="1.0.0"):
     """Create distribution package"""
-    print("\nCreating distribution package...")
+    print(f"\n{Colors.CYAN}Creating distribution package...{Colors.RESET}")
     
     # Source executable
     exe_path = DIST_DIR / EXE_NAME
     
     if not exe_path.exists():
-        print(f"Error: Executable not found at {exe_path}")
+        print(f"{Colors.RED}Error: Executable not found at {exe_path}{Colors.RESET}")
         return
     
     # Get file size
     size_mb = exe_path.stat().st_size / (1024 * 1024)
-    print(f"  Executable size: {size_mb:.2f} MB")
+    print(f"{Colors.GREEN}  Executable size: {size_mb:.2f} MB{Colors.RESET}")
     
     # Create platform-specific distribution
     if IS_WINDOWS:
@@ -148,8 +199,15 @@ def create_distribution_package():
         readme_path = DIST_DIR / "README.txt"
         with open(readme_path, "w") as f:
             f.write(f"""{APP_NAME} - Bowling Scoring Game
-Version: 1.0.0
+Version: {version}
 Platform: Windows
+
+FEATURES:
+- Traditional 10-pin bowling rules with authentic scoring
+- Real-time bowling scorecard with strikes (X) and spares (/)
+- Professional scoreboard display
+- 10th frame bonus rules
+- Multiple player support
 
 INSTALLATION:
 1. Extract this ZIP file to a folder of your choice
@@ -169,7 +227,7 @@ Enjoy bowling!
         # Create ZIP
         shutil.make_archive(str(DIST_DIR / dist_name), 'zip', DIST_DIR, 
                            base_dir=None)
-        print(f"  Created: {dist_name}.zip")
+        print(f"{Colors.GREEN}  Created: {dist_name}.zip{Colors.RESET}")
         
     elif IS_LINUX:
         # Create tar.gz for Linux
@@ -180,8 +238,15 @@ Enjoy bowling!
         readme_path = DIST_DIR / "README.txt"
         with open(readme_path, "w") as f:
             f.write(f"""{APP_NAME} - Bowling Scoring Game
-Version: 1.0.0
+Version: {version}
 Platform: Linux
+
+FEATURES:
+- Traditional 10-pin bowling rules with authentic scoring
+- Real-time bowling scorecard with strikes (X) and spares (/)
+- Professional scoreboard display
+- 10th frame bonus rules
+- Multiple player support
 
 INSTALLATION:
 1. Extract this archive to a folder of your choice
@@ -203,7 +268,7 @@ Enjoy bowling!
         # Create tar.gz
         shutil.make_archive(str(DIST_DIR / dist_name), 'gztar', DIST_DIR,
                            base_dir=None)
-        print(f"  Created: {dist_name}.tar.gz")
+        print(f"{Colors.GREEN}  Created: {dist_name}.tar.gz{Colors.RESET}")
         
     elif IS_MACOS:
         # Create ZIP for macOS
@@ -214,8 +279,15 @@ Enjoy bowling!
         readme_path = DIST_DIR / "README.txt"
         with open(readme_path, "w") as f:
             f.write(f"""{APP_NAME} - Bowling Scoring Game
-Version: 1.0.0
+Version: {version}
 Platform: macOS (PyInstaller build)
+
+FEATURES:
+- Traditional 10-pin bowling rules with authentic scoring
+- Real-time bowling scorecard with strikes (X) and spares (/)
+- Professional scoreboard display
+- 10th frame bonus rules
+- Multiple player support
 
 INSTALLATION:
 1. Extract this ZIP file to a folder of your choice
@@ -240,41 +312,116 @@ Enjoy bowling!
         # Create ZIP
         shutil.make_archive(str(DIST_DIR / dist_name), 'zip', DIST_DIR,
                            base_dir=None)
-        print(f"  Created: {dist_name}.zip")
+        print(f"{Colors.GREEN}  Created: {dist_name}.zip{Colors.RESET}")
 
 def print_summary():
     """Print build summary"""
-    print("\n" + "=" * 60)
-    print("  Build Complete!")
-    print("=" * 60)
-    print(f"\nDistribution files in: {DIST_DIR}")
+    print(f"\n{Colors.BLUE}{'=' * 60}{Colors.RESET}")
+    print(f"{Colors.GREEN}{Colors.BOLD}  Build Complete!{Colors.RESET}")
+    print(f"{Colors.BLUE}{'=' * 60}{Colors.RESET}")
+    print(f"\n{Colors.CYAN}Distribution files in: {DIST_DIR}{Colors.RESET}")
     print("\nFiles created:")
     
     # List distribution files
     for item in DIST_DIR.iterdir():
         if item.is_file() and item.name.startswith(APP_NAME):
             size_mb = item.stat().st_size / (1024 * 1024)
-            print(f"  - {item.name} ({size_mb:.2f} MB)")
+            print(f"  {Colors.GREEN}-{Colors.RESET} {item.name} ({size_mb:.2f} MB)")
     
-    print("\n" + "=" * 60)
-    print("  ⚠️  PERSONAL USE ONLY")
-    print("  Do NOT publish to app stores or use commercially")
-    print("  See LICENSE.txt for complete terms")
-    print("=" * 60 + "\n")
+    print(f"\n{Colors.RED}{'=' * 60}{Colors.RESET}")
+    print(f"{Colors.YELLOW}  ⚠️  PERSONAL USE ONLY{Colors.RESET}")
+    print(f"{Colors.YELLOW}  Do NOT publish to app stores or use commercially{Colors.RESET}")
+    print(f"{Colors.YELLOW}  See LICENSE.txt for complete terms{Colors.RESET}")
+    print(f"{Colors.RED}{'=' * 60}{Colors.RESET}\n")
+
+def parse_arguments():
+    """Parse command line arguments"""
+    parser = argparse.ArgumentParser(
+        description='Build standalone desktop executables for Bulling\n(Bulling is a bowling scoring application)',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python3 build_desktop_standalone.py
+  python3 build_desktop_standalone.py --clean
+  python3 build_desktop_standalone.py --clean --verbose
+  
+Features:
+  - Traditional 10-pin bowling rules with authentic scoring
+  - Real-time bowling scorecard with strikes (X) and spares (/)
+  - Professional scoreboard display
+  - 10th frame bonus rules
+  - Multiple player support
+"""
+    )
+    
+    # Create mutually exclusive group for clean options
+    clean_group = parser.add_mutually_exclusive_group()
+    clean_group.add_argument(
+        '--clean',
+        action='store_true',
+        help='Clean previous builds before building'
+    )
+    
+    clean_group.add_argument(
+        '--no-clean',
+        action='store_true',
+        help='Skip cleaning previous builds (for non-interactive use)'
+    )
+    
+    parser.add_argument(
+        '--verbose', '-v',
+        action='store_true',
+        help='Show verbose output'
+    )
+    
+    parser.add_argument(
+        '--version',
+        type=str,
+        default='1.0.0',
+        help='Set version number for distribution package (default: 1.0.0)'
+    )
+    
+    return parser.parse_args()
 
 def main():
     """Main build function"""
+    global VERBOSE
+    
+    # Parse arguments
+    args = parse_arguments()
+    VERBOSE = args.verbose
+    
     print_header()
     check_requirements()
     
-    # Ask user if they want to clean previous builds
-    response = input("Clean previous builds? (y/N): ").strip().lower()
-    if response == 'y':
+    # Handle clean option
+    if args.clean:
+        # Explicitly requested clean
         clean_build_dirs()
+    elif args.no_clean:
+        # Explicitly requested no clean (non-interactive)
+        pass
+    else:
+        # Interactive mode (default behavior for backwards compatibility)
+        try:
+            response = input(f"{Colors.YELLOW}Clean previous builds? (y/N): {Colors.RESET}").strip().lower()
+            if response == 'y':
+                clean_build_dirs()
+        except (KeyboardInterrupt, EOFError):
+            print(f"\n{Colors.YELLOW}Skipping clean...{Colors.RESET}")
     
     build_standalone()
-    create_distribution_package()
+    create_distribution_package(version=args.version)
     print_summary()
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print(f"\n\n{Colors.YELLOW}Build cancelled by user{Colors.RESET}")
+        sys.exit(130)
+    except Exception as e:
+        print(f"\n{Colors.RED}Error: {e}{Colors.RESET}")
+        if VERBOSE:
+            traceback.print_exc()
+        sys.exit(1)
