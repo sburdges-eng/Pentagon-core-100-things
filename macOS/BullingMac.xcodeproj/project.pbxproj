@@ -290,7 +290,7 @@
 				INFOPLIST_FILE = BullingMac/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bulling;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Bulling. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Personal Use Only";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -323,7 +323,7 @@
 				INFOPLIST_FILE = BullingMac/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bulling;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Bulling. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Personal Use Only";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
