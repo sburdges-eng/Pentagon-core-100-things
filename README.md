@@ -14,9 +14,9 @@
 - **📊 Real-Time Scorecard**: Track scores frame-by-frame
 - **🎯 10th Frame Bonus**: Authentic bowling rules
 - **💾 Auto-Save**: Resume your games anytime
-- **📱 Cross-Platform**: macOS, Linux & Windows compatible (Python version)
+- **📱 Cross-Platform**: Python version supports macOS, Linux & Windows (requires Qt6)
 - **⚡️ Easy Install**: One command installation with `pip install .`
-- **🖥️ Multiple Formats**: Run as CLI command, Python script, or macOS app
+- **🖥️ Multiple Formats**: Run as CLI command, Python script, or macOS app bundle
 
 ---
 

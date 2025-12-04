@@ -8,6 +8,7 @@ This script can be used to:
 After installation, run Bulling with: bulling
 """
 
+import sys
 from setuptools import setup
 
 # For macOS app bundle
@@ -52,5 +53,5 @@ setup(
     app=APP,
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},
-    setup_requires=['py2app'] if 'py2app' in str(__import__('sys').argv) else [],
+    setup_requires=['py2app'] if 'py2app' in sys.argv else [],
 )
