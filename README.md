@@ -12,7 +12,7 @@ This repository contains:
 ## 📱 Features
 
 - **Interactive Pin Layout**: Click bowling pins to knock them down
-- **Dartboard Values**: Pins display dartboard black section values (20, 3, 11, 8, 16, 7, 19, 12, 18, 9)
+- **Dartboard Values**: All 10 bowling pins display dartboard black section values instead of numbers 1-10
 - **Traditional Bowling Scoring**: Full implementation of strikes, spares, and open frames
 - **Multi-Player Support**: Up to 8 players can compete
 - **Auto Pin Reset**: Pins automatically reset after frames and turns ✅ **BUG FIXED**
@@ -60,12 +60,20 @@ Pentagon-core-100-things/
 └── Documentation files                  # Setup guides and summaries
 ```
 
-## 🚀 Getting Started - JavaFX Version (Alternative)
+## 🚀 Getting Started - JavaFX & Swift Versions (Reference)
 
 **Note**: The JavaFX and Swift versions are provided as reference implementations. 
 The Python Qt6 version is the primary, fully-featured implementation in this repository.
 
-For detailed information about all versions, see `COMPLETE_PROJECT_SUMMARY.md`.
+### JavaFX Version
+The JavaFX version (DartStrikeApp.java, GameModel.java) demonstrates the same game logic in Java.
+Setup requires Java 11+ and JavaFX. See `COMPLETE_PROJECT_SUMMARY.md` for detailed setup instructions.
+
+### Swift/iOS Version  
+The Swift version (DartStrikeApp.swift, GameModel.swift) is a native iOS implementation.
+Setup requires Xcode 14+ on macOS. See `SETUP_GUIDE.md` for detailed instructions.
+
+For comprehensive information about all versions, see `COMPLETE_PROJECT_SUMMARY.md`.
 
 ## 📋 How to Play
 
