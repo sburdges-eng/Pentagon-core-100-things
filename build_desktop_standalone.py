@@ -26,6 +26,7 @@ import shutil
 import subprocess
 import platform
 import argparse
+import traceback
 from pathlib import Path
 
 # Project paths
@@ -336,7 +337,7 @@ def print_summary():
 def parse_arguments():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(
-        description='Build standalone desktop executables for Bulling (Bowling Scoring App)',
+        description='Build standalone desktop executables for Bulling\n(Bulling is a bowling scoring application)',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -422,6 +423,5 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\n{Colors.RED}Error: {e}{Colors.RESET}")
         if VERBOSE:
-            import traceback
             traceback.print_exc()
         sys.exit(1)
