@@ -1,310 +1,410 @@
-# 🎯🎳 Dart Strike - Multi-Platform Bowling Game
+# 🐂 Bulling - Bowling Scoring Game
 
-**Dart Strike** is a hybrid darts-bowling game available in multiple versions where players click/tap pins to knock them down and score points using traditional bowling rules.
+**Strike & Score!** Traditional 10-pin bowling game with a unique bull-themed design.
 
-## 🎮 Available Versions
+<img src="bulling_icon.svg" width="200" alt="Bulling Logo - Bull head with dartboard eyes and bowling pin horns"/>
 
-This repository contains:
-1. **Python Qt6 Version** (`dart_strike_qt.py`) - Desktop app using PySide6 ⭐ **Primary Version**
-2. **JavaFX Version** (DartStrikeApp.java) - Java desktop application
-3. **iOS Swift Version** (DartStrikeApp.swift) - Native iOS/iPadOS app
+---
 
-## 📱 Features
+## 🎮 Features
 
-- **Interactive Pin Layout**: Click bowling pins to knock them down
-- **Dartboard Values**: All 10 bowling pins display dartboard black section values instead of numbers 1-10
-- **Traditional Bowling Scoring**: Full implementation of strikes, spares, and open frames
-- **Multi-Player Support**: Up to 8 players can compete
-- **Auto Pin Reset**: Pins automatically reset after frames and turns ✅ **BUG FIXED**
-- **Professional Scorecard**: View cumulative scores and frame-by-frame breakdown
-- **10th Frame Rules**: Proper bonus throws for strikes and spares
-- **Cross-Platform**: Runs on Windows, Mac, and Linux
+- **🐂 Unique Bull Head Design**: Dartboard eyes & bowling pin horns
+- **🎳 Traditional Bowling Rules**: Strikes, spares, and proper scoring
+- **👥 Multi-Player**: Up to 8 players per game
+- **📊 Real-Time Scorecard**: Track scores frame-by-frame
+- **🎯 10th Frame Bonus**: Authentic bowling rules
+- **💾 Auto-Save**: Resume your games anytime
+- **📱 Cross-Platform**: macOS & iOS versions available
 
-## 🚀 Quick Start - Python Qt6 Version (Recommended)
+---
 
-### Prerequisites
-- **Python 3.9+** (Python 3.11 recommended)
-- **PySide6** (Qt6 for Python)
+## 📦 Available Versions
 
-### Installation & Running
+This repository contains **TWO complete versions** of Bulling:
+
+### 1. 🖥️ macOS App (Python/Qt6)
+**Perfect for desktop use**
+
+- Beautiful native macOS application
+- Double-click to run (no code required!)
+- Standalone .app bundle
+- No Python installation needed for users
+
+📖 **[macOS Setup Guide](MACOS_APP_GUIDE.md)**
+
+### 2. 📱 iOS App (Swift/SwiftUI)
+**Perfect for mobile devices**
+
+- Native iOS & iPadOS app
+- Animated splash screen
+- Touch-optimized interface
+- App Store ready
+
+📖 **[iOS Setup Guide](iOS_SETUP_GUIDE.md)**
+
+---
+
+## 🚀 Quick Start
+
+### For Users (macOS)
+
+1. **Download** `Bulling.app` or `Bulling.zip`
+2. **Unzip** if needed
+3. **Drag** to Applications folder
+4. **Double-click** to play!
+
+### For Developers (macOS)
 
 ```bash
+# Clone the repository
+git clone <repository-url>
+cd Pentagon-core-100-things
+
 # Install dependencies
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
-# Run the application
-python3 dart_strike_qt.py
+# Run directly
+python3 bulling_qt.py
+
+# OR build standalone app
+./build_macos_app.sh
 ```
 
-### How to Play
-1. Click "Add Player" to add players (up to 8)
-2. Click "Start Game" to begin
-3. Click pins with dartboard values to knock them down
-4. Click "Submit Throw" to record your throw
-5. Game automatically advances to next player
-6. View scores in the scorecard on the right
+### For Developers (iOS)
 
-## 🏗️ Project Structure
+```bash
+# Use files in iOS/Bulling/ folder
+# Follow iOS_SETUP_GUIDE.md for complete instructions
 
-```
-dart-strike/
-├── dart_strike_qt.py                    # Python Qt6 version (PRIMARY)
-├── requirements.txt                     # Python dependencies
-├── DartStrikeApp.java                   # Java standalone version
-├── DartStrikeApp.swift                  # iOS Swift version
-├── GameModel.java                       # Java game logic
-├── GameModel.swift                      # Swift game logic
-├── README.md                            # This file
-├── README_DART_VALUES.md                # Dartboard values documentation
-├── TODO.md                              # Task tracking
-├── COMPLETE_PROJECT_SUMMARY.md          # Multi-platform project overview
-├── SETUP_GUIDE.md                       # iOS setup instructions
-├── IMPLEMENTATION_SUMMARY.md            # Implementation details
-├── QUICK_START.md                       # Quick reference guide
-├── TRIAL_RUN_CHECKLIST.md               # Testing checklist
-└── dart_strike_screenshot.png           # Application screenshot
+1. Open Xcode
+2. Create new iOS App project named "Bulling"
+3. Copy all .swift files from iOS/Bulling/
+4. Build and run!
 ```
 
-## 🚀 Getting Started - JavaFX & Swift Versions (Reference)
+---
 
-**Note**: The JavaFX and Swift versions are provided as reference implementations. 
-The Python Qt6 version is the primary, fully-featured implementation in this repository.
+## 🎨 App Icon & Branding
 
-### JavaFX Version
-The JavaFX version (DartStrikeApp.java, GameModel.java) demonstrates the same game logic in Java.
-These are standalone Java files provided for reference. For a complete JavaFX project setup with Maven,
-see the documentation in `COMPLETE_PROJECT_SUMMARY.md`.
+### Bull Head Logo Design
 
-### Swift/iOS Version  
-The Swift version (DartStrikeApp.swift, GameModel.swift) is a native iOS implementation.
-Setup requires Xcode 14+ on macOS. See `SETUP_GUIDE.md` for detailed instructions.
+The Bulling logo features a creative bull head with:
+- **🎯 Dartboard Eyes**: Concentric rings (black, white, green, red, bullseye)
+- **🎳 Bowling Pin Horns**: White pins with red stripes
+- **🟤 Brown Head**: Gradient brown circular head
+- **✨ Animated**: Pulsing eyes and smooth entrance animation
 
-For comprehensive information about all versions, see `COMPLETE_PROJECT_SUMMARY.md`.
+### Generating the Icon
 
-## 📋 How to Play
+```bash
+# Generate SVG icon
+python3 generate_icon.py
+
+# View the icon
+open bulling_icon.svg
+
+# Convert to PNG (macOS)
+# Use Preview, Image2icon, or online tools
+
+# Create .icns for macOS app
+./create_icon.sh bulling_icon_1024.png
+```
+
+---
+
+## 📖 How to Play
 
 ### Setup
-1. Launch the application
-2. Add players (up to 8) using the player setup screen
-3. Click "Start Game"
+1. **Launch Bulling** on macOS or iOS
+2. **Add Players** (up to 8)
+3. **Start Game**
 
 ### Gameplay
-1. **Select Pins**: Click the bowling pins you want to knock down (toggle red/blue)
-2. **Submit Throw**: Press "Submit Throw" to lock in your selection
-3. **Automatic Turn Rotation**: The game automatically switches players after each frame
-4. **View Scores**: Click "Scorecard" to see detailed scoring
+1. **Tap/Click** bowling pins to knock them down
+   - White pins = Standing
+   - Red pins = Knocked down
+2. **Submit Throw** to record your throw
+3. Game **automatically advances** to next player
+4. **View scorecard** anytime
 
-### Scoring Rules
+### Scoring
+- **Strike (X)**: All 10 pins on first throw = 10 + next 2 throws
+- **Spare (/)**: All 10 pins in 2 throws = 10 + next 1 throw  
+- **Open Frame**: Count actual pins knocked
+- **10th Frame**: Bonus throws for strikes/spares
+- **Perfect Game**: 12 strikes = 300 points! 🏆
 
-#### Strike (X)
-- Knock down all 10 pins on first throw
-- Score: 10 + next 2 throws
+---
 
-#### Spare (/)
-- Knock down all 10 pins using both throws
-- Score: 10 + next 1 throw
+## 🛠️ Technology Stack
 
-#### Open Frame
-- Less than 10 pins knocked down
-- Score: Actual number of pins
+### macOS Version
+- **Python 3.9+**
+- **PySide6 (Qt6)**: Professional GUI framework
+- **py2app**: macOS app bundling
 
-#### 10th Frame
-- Strike on 1st ball: Get 2 bonus throws
-- Spare on 2nd ball: Get 1 bonus throw
-- Maximum: 30 points in 10th frame
+### iOS Version
+- **Swift 5.9+**
+- **SwiftUI**: Modern declarative UI
+- **iOS 15.0+**: Target deployment
 
-**Perfect Game**: 12 strikes = 300 points
+---
 
-## 🔧 Testing the Pin Reset Fix
+## 📁 Project Structure
 
-The app includes the debugged pin reset functionality:
-
-### Test Scenario 1: Basic Pin Reset
-1. Start a 2-player game
-2. Player 1: Select and knock down 5 pins, submit throw
-3. Player 1: Select remaining 5 pins, submit second throw
-4. **✅ Verify**: All pins reset to standing for Player 2
-
-### Test Scenario 2: Strike Reset
-1. Player knocks down all 10 pins (strike)
-2. Submit throw
-3. **✅ Verify**: Pins immediately reset for next frame
-
-### Test Scenario 3: Frame Transition
-1. Complete an entire frame (2 throws)
-2. **✅ Verify**: Pins reset for next player's turn
-
-### Test Scenario 4: 10th Frame
-1. Reach the 10th frame
-2. Get a strike on first throw
-3. **✅ Verify**: Pins reset for bonus throws
-
-## 💾 Game State Persistence
-
-The app automatically saves your game progress:
-
-- **Auto-Save**: When closing the application
-- **Resume**: Prompted to resume when reopening
-- **File Location**: `dartstrike_save.dat` in working directory
-- **Manual Reset**: Use "New Game" button to start fresh
-
-Saved data includes:
-- All player scores and frames
-- Current player turn
-- Pin positions
-- Game progress
-
-## 🐛 Debugging Tips
-
-### Build Issues
-
-**Maven dependencies not downloading:**
-```bash
-mvn clean install -U
+```
+Pentagon-core-100-things/
+├── bulling_qt.py              # macOS Python app (main)
+├── setup.py                   # py2app build configuration
+├── build_macos_app.sh         # Build script for macOS
+├── create_icon.sh             # Icon creation helper
+├── generate_icon.py           # Bull head icon generator
+├── bulling_icon.svg           # App icon (SVG)
+├── requirements.txt           # Python dependencies
+├── iOS/
+│   └── Bulling/               # iOS Swift app
+│       ├── BullingApp.swift
+│       ├── GameModel.swift
+│       ├── SplashScreen.swift
+│       ├── ContentView.swift
+│       ├── GameView.swift
+│       └── ScorecardView.swift
+├── MACOS_APP_GUIDE.md         # macOS detailed guide
+├── iOS_SETUP_GUIDE.md         # iOS detailed guide
+└── README.md                  # This file
 ```
 
-**JavaFX not found:**
-- Ensure Java 11+ is installed
-- Check Maven is using correct JDK
-- Try: `export JAVA_HOME=/path/to/jdk11`
+---
 
-**Module errors:**
-- Ensure `module-info.java` is not present (we're using classpath mode)
-- Or add proper module configuration if needed
+## 🎯 Package Dependencies
 
-### Runtime Issues
+### Python (macOS)
+```
+PySide6>=6.5.0          # Qt6 GUI framework (LGPL)
+py2app>=0.28.0          # macOS app builder
+```
 
-**Pins not resetting:**
-- This is already fixed in the code
-- Make sure you're using the provided `GameModel.java`
+**Why these packages?**
+- ✅ **PySide6**: Official Qt bindings, professional UI, cross-platform
+- ✅ **py2app**: Creates true macOS .app bundles, no user dependencies
+- ✅ **Minimal**: Only 2 dependencies, small footprint
+- ✅ **Stable**: Mature, well-maintained packages
 
-**FXML load errors:**
-- Verify FXML files are in `src/main/resources/fxml/`
-- Check controller class names match
+### Swift (iOS)
+```
+SwiftUI (built-in)      # Native iOS UI framework
+Foundation (built-in)   # Core functionality
+Combine (built-in)      # Reactive programming
+```
 
-**Save file errors:**
-- Check write permissions in working directory
-- Try deleting `dartstrike_save.dat` if corrupted
+---
+
+## 🔧 Building & Distribution
+
+### macOS App
+
+```bash
+# Build the app
+./build_macos_app.sh
+
+# Result: dist/Bulling.app
+
+# Distribute
+cd dist
+zip -r Bulling.zip Bulling.app
+# Share Bulling.zip
+```
+
+### iOS App
+
+1. **Archive** in Xcode: Product → Archive
+2. **Distribute**:
+   - TestFlight: Beta testing
+   - App Store: Public release
+   - Ad-Hoc: Direct distribution
+
+---
 
 ## 🎨 Customization
 
-### Change Pin Colors
-In `GameViewController.java`:
-```java
-// Standing pin
-"-fx-background-color: white; -fx-border-color: blue;"
+### Change Colors
 
-// Knocked down pin
-"-fx-background-color: #ffcccc; -fx-border-color: red;"
+**macOS (Python)**: Edit color values in `bulling_qt.py`
+```python
+# Example: Change pin color
+.setStyleSheet("background-color: #YOUR_COLOR;")
 ```
 
-### Modify Layout
-Edit FXML files in `src/main/resources/fxml/`:
-- `PlayerSetupView.fxml` - Player setup screen
-- `GameView.fxml` - Main game interface
-- `ScorecardView.fxml` - Scorecard display
-
-### Add Sound Effects (Future Enhancement)
-```java
-// In GameViewController.java
-AudioClip sound = new AudioClip(getClass().getResource("/sounds/pin.wav").toString());
-sound.play();
+**iOS (Swift)**: Edit color values in Swift files
+```swift
+// Example: Change background
+Color(red: 0.95, green: 0.97, blue: 1.0)
 ```
 
-## 📦 Building Executable JAR
+### Modify Bull Head Logo
 
-### Create Runnable JAR:
+Edit `SplashScreen.swift` (iOS) or `generate_icon.py` (icon) to customize:
+- Eye colors
+- Horn shapes
+- Head color
+- Animation effects
+
+### Adjust Splash Screen Duration
+
+In `BullingApp.swift`:
+```swift
+DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {  // Change 2.0 to your preferred seconds
+    // ...
+}
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### macOS
+
+**"App can't be opened" security warning**
+- Go to System Settings → Privacy & Security
+- Click "Open Anyway" next to Bulling
+
+**Build fails**
 ```bash
-mvn clean package
+# Update dependencies
+pip3 install --upgrade -r requirements.txt
+
+# Clean and rebuild
+rm -rf build dist
+./build_macos_app.sh
 ```
 
-The JAR will be in `target/DartStrike-JavaFX-1.0.0.jar`
+### iOS
 
-### Run the JAR:
-```bash
-java -jar target/DartStrike-JavaFX-1.0.0.jar
-```
+**Build errors in Xcode**
+- Ensure all .swift files are added to target
+- Check deployment target is iOS 15.0+
+- Clean build folder (⇧⌘K)
 
-## 🖥️ System Requirements
+**Splash screen doesn't show**
+- Verify SplashScreen.swift is in project
+- Check `showSplash = true` in BullingApp.swift
 
-**Minimum:**
-- Java 11+
-- 2 GB RAM
-- 100 MB disk space
-- 1024x768 resolution
+---
 
-**Recommended:**
-- Java 17+
-- 4 GB RAM
-- 200 MB disk space
-- 1920x1080 resolution
+## 📊 Version Comparison
 
-## 🔄 Version History
+| Feature | macOS | iOS |
+|---------|-------|-----|
+| **Platform** | macOS 10.13+ | iOS 15.0+ |
+| **UI Framework** | Qt6/PySide6 | SwiftUI |
+| **Distribution** | .app or .zip | App Store/TestFlight |
+| **Setup Time** | 5 min | 10 min |
+| **User Install** | Drag & drop | App Store download |
+| **Dev Environment** | Any IDE + Python | Xcode required |
+| **Bull Logo** | In app | Splash + in app |
+| **File Size** | ~100-150 MB | ~5-10 MB |
 
-**Version 1.0.0** (Current)
-- ✅ Core bowling gameplay
-- ✅ Pin reset functionality (debugged from Java/iOS)
-- ✅ Traditional scoring system
-- ✅ Multi-player support
-- ✅ Game state persistence
-- ✅ Professional scorecard
-- ✅ JavaFX modern UI
+---
 
-## 🎯 Future Enhancements (Optional)
+## 🏆 Game Rules Reference
 
-- [ ] Sound effects for pin knockdowns
+### Scoring Examples
+
+**Strike (X)**: Pin 1st ball, then bowl 7 and 2
+- Frame score: 10 + 7 + 2 = 19
+
+**Spare (/)**: Bowl 7 then 3 (spare), then bowl 5
+- Frame score: 10 + 5 = 15
+
+**Open Frame**: Bowl 6 then 2
+- Frame score: 6 + 2 = 8
+
+**10th Frame**:
+- Strike: Get 2 bonus balls (can score up to 30)
+- Spare: Get 1 bonus ball
+- Open: No bonus balls
+
+**Perfect Game**: X X X X X X X X X X X X = 300
+
+---
+
+## 📄 License
+
+Check the repository license file for details.
+
+PySide6 is LGPL licensed.
+SwiftUI is part of Apple's SDK.
+
+---
+
+## 🎉 Features Highlights
+
+- ✅ **No coding required** for users
+- ✅ **Professional scoring system**
+- ✅ **Beautiful, modern UI**
+- ✅ **Unique bull head branding**
+- ✅ **Cross-platform** (macOS & iOS)
+- ✅ **Offline** - no internet needed
+- ✅ **Auto-save** game progress
+- ✅ **Responsive** - smooth 60 FPS
+- ✅ **Intuitive** - easy to learn
+
+---
+
+## 🔗 Quick Links
+
+- **[macOS Guide](MACOS_APP_GUIDE.md)** - Detailed macOS setup and usage
+- **[iOS Guide](iOS_SETUP_GUIDE.md)** - Complete iOS development guide
+- **[Icon SVG](bulling_icon.svg)** - Bull head logo design
+
+---
+
+## 🎯 Perfect For
+
+- 🏠 Home entertainment
+- 🎉 Parties and gatherings
+- 🍺 Bars and restaurants
+- 🎳 Bowling alleys (virtual scoring)
+- 📱 Personal mobile gaming
+- 🖥️ Desktop casual gaming
+
+---
+
+## ✨ Coming Soon (Optional Future Features)
+
+- [ ] Sound effects
 - [ ] Game statistics and history
-- [ ] Player profiles and avatars
-- [ ] Handicap scoring system
-- [ ] Dark mode theme
+- [ ] Player profiles
+- [ ] Dark mode
 - [ ] Tournament mode
 - [ ] Network multiplayer
-- [ ] Database persistence (instead of file)
+- [ ] Additional themes
+
+---
+
+## 💪 Contributing
+
+Contributions welcome! Feel free to:
+- Report bugs
+- Suggest features
+- Submit pull requests
+- Improve documentation
+
+---
 
 ## 📞 Support
 
 For issues or questions:
-1. Check the debugging tips section
-2. Review Maven logs for build errors
-3. Test with the provided test scenarios
-4. Check JavaFX documentation: https://openjfx.io/
-
-## 📄 Technologies Used
-
-- **Java 11+** - Programming language
-- **JavaFX 17** - UI framework
-- **Maven** - Build tool
-- **FXML** - UI markup language
-- **Java Serialization** - Game state persistence
-
-## 📝 Comparison: JavaFX vs iOS
-
-| Feature | iOS (SwiftUI) | JavaFX (Desktop) |
-|---------|---------------|------------------|
-| Platform | iOS Native | Windows/Mac/Linux |
-| UI Framework | SwiftUI | JavaFX + FXML |
-| State Management | @Published/@State | ObservableList/Property |
-| Persistence | UserDefaults | File Serialization |
-| Pin Reset Bug | ✅ Fixed | ✅ Fixed |
-| Performance | Excellent | Excellent |
-| Distribution | App Store | JAR file |
-
-## 🎉 Quick Start Checklist
-
-- [ ] Java 11+ installed
-- [ ] Maven installed
-- [ ] Project downloaded/cloned
-- [ ] `mvn clean package` successful
-- [ ] `mvn javafx:run` launches app
-- [ ] Can add players and start game
-- [ ] Pins reset correctly between turns
-- [ ] Scoring calculates properly
-- [ ] Game saves and loads correctly
-
-**Ready to bowl? 🎯🎳**
+1. Check the appropriate guide (macOS or iOS)
+2. Review troubleshooting sections
+3. Open an issue on GitHub
 
 ---
 
-## 📧 Contact
+**Ready to bowl? 🎳🐂**
 
-For questions or feedback about Dart Strike JavaFX, please reach out through GitHub or project documentation.
+Download Bulling now and start striking!
+
+---
+
+*"Strike & Score with Bulling!"* 🎯

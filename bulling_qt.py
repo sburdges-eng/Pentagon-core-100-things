@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Dart Strike - Bowling Scoring App (Python/Qt6 Version)
+Bulling - Bowling Scoring App (Python/Qt6 Version)
 Traditional 10-pin bowling with proper scoring
+🐂 Bull head logo with dartboard eyes and bowling pin horns
 """
 
 import sys
@@ -80,8 +81,8 @@ class Player:
         return self.current_frame >= 10
 
 
-class DartStrikeApp(QMainWindow):
-    """Main Dart Strike Application"""
+class BullingApp(QMainWindow):
+    """Main Bulling Application"""
 
     def __init__(self):
         super().__init__()
@@ -93,7 +94,7 @@ class DartStrikeApp(QMainWindow):
         self.init_ui()
 
     def init_ui(self):
-        self.setWindowTitle("Dart Strike - Bowling Scorer")
+        self.setWindowTitle("🐂 Bulling - Bowling Scorer")
         self.setGeometry(100, 100, 900, 700)
         self.setStyleSheet("background-color: #F5F5F7;")
 
@@ -104,7 +105,7 @@ class DartStrikeApp(QMainWindow):
         layout.setContentsMargins(20, 20, 20, 20)
 
         # Title
-        title = QLabel("🎳 DART STRIKE")
+        title = QLabel("🐂 BULLING")
         title.setFont(QFont("Helvetica Neue", 32, QFont.Bold))
         title.setAlignment(Qt.AlignCenter)
         title.setStyleSheet("color: #1D1D1F; padding: 10px;")
@@ -710,7 +711,7 @@ def main():
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
 
-    window = DartStrikeApp()
+    window = BullingApp()
     window.show()
 
     sys.exit(app.exec())
