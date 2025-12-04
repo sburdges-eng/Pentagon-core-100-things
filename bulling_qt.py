@@ -398,6 +398,28 @@ class BullingApp(QMainWindow):
         self.strike_btn.setEnabled(False)
         pin_layout.addWidget(self.strike_btn)
 
+        # Gutter Ball button
+        self.gutter_btn = QPushButton("Gutter Ball")
+        self.gutter_btn.setFont(QFont("Helvetica Neue", 14, QFont.Bold))
+        self.gutter_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #8E8E93;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 15px 30px;
+            }
+            QPushButton:hover {
+                background-color: #636366;
+            }
+            QPushButton:disabled {
+                background-color: #86868B;
+            }
+        """)
+        self.gutter_btn.clicked.connect(self.gutter_ball)
+        self.gutter_btn.setEnabled(False)
+        pin_layout.addWidget(self.gutter_btn)
+
         # Submit throw button
         self.submit_btn = QPushButton("Submit Throw")
         self.submit_btn.setFont(QFont("Helvetica Neue", 14, QFont.Bold))
@@ -563,6 +585,14 @@ class BullingApp(QMainWindow):
                 pin.update_style()
         self.update_pins_count()
 
+    def gutter_ball(self):
+        """Set all pins to standing (gutter ball = 0 pins knocked down)"""
+        for pin in self.pins:
+            if not pin.standing:
+                pin.standing = True
+                pin.update_style()
+        self.update_pins_count()
+
     def add_player(self):
         """Add a new player"""
         name, ok = QInputDialog.getText(self, "Add Player", "Enter player name:")
@@ -581,6 +611,7 @@ class BullingApp(QMainWindow):
         self.current_player_index = 0
         self.submit_btn.setEnabled(True)
         self.strike_btn.setEnabled(True)
+        self.gutter_btn.setEnabled(True)
         self.reset_pins()
         self.update_status()
         self.update_scorecard()
@@ -592,6 +623,7 @@ class BullingApp(QMainWindow):
         self.game_started = False
         self.submit_btn.setEnabled(False)
         self.strike_btn.setEnabled(False)
+        self.gutter_btn.setEnabled(False)
         self.reset_pins()
         self.status_label.setText("Add players to start a new game")
         self.update_scorecard()
@@ -716,6 +748,7 @@ class BullingApp(QMainWindow):
         self.game_started = False
         self.submit_btn.setEnabled(False)
         self.strike_btn.setEnabled(False)
+        self.gutter_btn.setEnabled(False)
 
         # Find winner
         winner = max(self.players, key=lambda p: p.scores[9] or 0)
