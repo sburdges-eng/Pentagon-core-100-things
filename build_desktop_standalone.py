@@ -282,6 +282,12 @@ def main():
     )
     args = parser.parse_args()
     
+    # Validate mutually exclusive flags
+    if args.yes and args.no_clean:
+        print("Error: --yes and --no-clean flags are mutually exclusive.")
+        print("Use --yes to auto-clean, --no-clean to skip cleaning, or neither for interactive mode.")
+        sys.exit(1)
+    
     print_header()
     check_requirements()
     
