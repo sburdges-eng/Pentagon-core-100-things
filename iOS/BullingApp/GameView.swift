@@ -22,6 +22,9 @@ struct GameView: View {
                     // Pin layout area
                     pinArea
                     
+                    // Strike/Spare button
+                    strikeSpareButton
+                    
                     // Submit button
                     submitButton
                     
@@ -139,6 +142,23 @@ struct GameView: View {
                 }
                 .padding(.vertical, 30)
             }
+        }
+    }
+    
+    var strikeSpareButton: some View {
+        Button(action: {
+            gameModel.knockDownAllPins()
+        }) {
+            HStack {
+                Image(systemName: "bolt.circle.fill")
+                Text(gameModel.currentPlayer?.currentThrow == 0 ? "Strike" : "Spare")
+                    .fontWeight(.semibold)
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.orange)
+            .foregroundColor(.white)
+            .cornerRadius(12)
         }
     }
     

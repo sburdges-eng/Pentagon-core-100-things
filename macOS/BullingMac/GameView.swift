@@ -25,6 +25,9 @@ struct GameView: View {
 
                 Spacer()
 
+                // Strike/Spare button
+                strikeSpareButton
+
                 // Submit button
                 submitButton
 
@@ -150,6 +153,24 @@ struct GameView: View {
                 .padding(.vertical, 30)
             }
         }
+    }
+
+    var strikeSpareButton: some View {
+        Button(action: {
+            gameModel.knockDownAllPins()
+        }) {
+            HStack {
+                Image(systemName: "bolt.circle.fill")
+                Text(gameModel.currentPlayer?.currentThrow == 0 ? "Strike" : "Spare")
+                    .fontWeight(.semibold)
+            }
+            .frame(width: 200)
+            .padding()
+            .background(Color.orange)
+            .foregroundColor(.white)
+            .cornerRadius(12)
+        }
+        .buttonStyle(.plain)
     }
 
     var submitButton: some View {

@@ -109,6 +109,12 @@ class GameModel: ObservableObject {
         }
     }
     
+    func knockDownAllPins() {
+        for index in pins.indices {
+            pins[index].isStanding = false
+        }
+    }
+    
     func getPinsKnockedDown() -> Int {
         return pins.filter { !$0.isStanding }.count
     }
