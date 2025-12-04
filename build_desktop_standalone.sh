@@ -7,7 +7,10 @@
 # Uses PyInstaller for cross-platform builds
 #
 # Usage:
-#   ./build_desktop_standalone.sh
+#   ./build_desktop_standalone.sh [--yes|-y] [--no-clean]
+#
+#   --yes, -y      Automatically clean previous builds without prompting
+#   --no-clean     Skip cleaning previous builds
 #
 # Prerequisites:
 #   - Python 3.9+
@@ -58,8 +61,8 @@ fi
 echo -e "${GREEN}✓ All dependencies installed${NC}"
 echo ""
 
-# Run the Python build script
-python3 build_desktop_standalone.py
+# Run the Python build script with all arguments passed through
+python3 build_desktop_standalone.py "$@"
 
 echo ""
 echo -e "${GREEN}Done!${NC}"

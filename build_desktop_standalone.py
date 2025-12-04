@@ -10,6 +10,7 @@ import os
 import shutil
 import subprocess
 import platform
+import argparse
 from pathlib import Path
 
 # Project paths
@@ -264,13 +265,37 @@ def print_summary():
 
 def main():
     """Main build function"""
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(
+        description='Build standalone desktop executable for Bulling',
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument(
+        '--yes', '-y',
+        action='store_true',
+        help='Automatically clean previous builds without prompting'
+    )
+    parser.add_argument(
+        '--no-clean',
+        action='store_true',
+        help='Skip cleaning previous builds'
+    )
+    args = parser.parse_args()
+    
     print_header()
     check_requirements()
     
-    # Ask user if they want to clean previous builds
-    response = input("Clean previous builds? (y/N): ").strip().lower()
-    if response == 'y':
+    # Handle build cleaning based on flags
+    if args.no_clean:
+        print("Skipping build cleanup (--no-clean specified)")
+    elif args.yes:
+        print("Auto-cleaning previous builds (--yes specified)")
         clean_build_dirs()
+    else:
+        # Interactive mode - ask user
+        response = input("Clean previous builds? (y/N): ").strip().lower()
+        if response == 'y':
+            clean_build_dirs()
     
     build_standalone()
     create_distribution_package()

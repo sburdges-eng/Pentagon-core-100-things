@@ -49,8 +49,15 @@ The desktop standalone app uses **PyInstaller** to create self-contained executa
 
 This will:
 - Check and install dependencies automatically
+- Ask if you want to clean previous builds
 - Build the standalone executable
 - Create distribution packages
+
+**For automated/CI builds (no prompts):**
+```bash
+./build_desktop_standalone.sh --yes    # Auto-clean previous builds
+./build_desktop_standalone.sh --no-clean    # Keep previous builds
+```
 
 #### Option 2: Using Python Script Directly
 ```bash
@@ -58,6 +65,18 @@ python3 build_desktop_standalone.py
 ```
 
 This gives you more control and shows detailed output.
+
+**Command-line options:**
+- `--yes` or `-y`: Automatically clean previous builds without prompting
+- `--no-clean`: Skip cleaning previous builds
+- `--help`: Show all available options
+
+**Examples:**
+```bash
+python3 build_desktop_standalone.py --yes        # Auto-clean and build
+python3 build_desktop_standalone.py --no-clean   # Build without cleaning
+python3 build_desktop_standalone.py              # Interactive mode
+```
 
 ## 📋 Build Process Details
 
