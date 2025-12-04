@@ -25,7 +25,7 @@ struct ContentView: View {
                     setupView
                 }
             }
-            .navigationTitle("🧊 Bulling")
+            .navigationTitle("🐂 Bulling")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
