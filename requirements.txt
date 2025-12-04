@@ -6,3 +6,6 @@ PySide6>=6.5.0
 
 # For building macOS applications
 py2app>=0.28.0; sys_platform == 'darwin'
+
+# For building cross-platform standalone executables
+pyinstaller>=6.0.0

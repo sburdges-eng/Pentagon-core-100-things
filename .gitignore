@@ -45,3 +45,6 @@ DartStrike.iconset/
 
 # Distribution files
 *.zip
+*.tar.gz
+*.dmg
+*.ipa
