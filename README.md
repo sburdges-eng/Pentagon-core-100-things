@@ -68,7 +68,26 @@ This repository contains **TWO complete versions** of Bulling:
 
 ### For Users (Standalone Apps - Personal Use)
 
-#### Build Standalone Apps for Personal Distribution
+#### Build Desktop Standalone App (Cross-Platform)
+
+```bash
+# Build standalone desktop executable (Windows, Linux, macOS)
+./build_desktop_standalone.sh
+```
+
+**Creates:**
+- `dist/Bulling` - Standalone executable (~65 MB)
+- `dist/Bulling-<Platform>.zip` - Distribution package with README
+
+**Perfect for:**
+- ✅ Cross-platform distribution (Windows/Linux/macOS)
+- ✅ No Python installation required
+- ✅ Single executable file
+- ✅ Works on any desktop system
+
+📖 **[Desktop Standalone Build Guide](DESKTOP_STANDALONE_GUIDE.md)**
+
+#### Build Native Mobile/macOS Apps
 
 ```bash
 # Build unsigned, standalone apps for personal use
@@ -245,6 +264,12 @@ open bulling_icon.svg
 
 ## 🛠️ Technology Stack
 
+### Desktop Standalone (Cross-Platform)
+- **Python 3.9+**
+- **PySide6 (Qt6)**: Professional GUI framework
+- **PyInstaller**: Standalone executable builder
+- **Platforms**: Windows, Linux, macOS
+
 ### macOS Version
 - **Python 3.9+**
 - **PySide6 (Qt6)**: Professional GUI framework
@@ -261,22 +286,26 @@ open bulling_icon.svg
 
 ```
 Pentagon-core-100-things/
-├── bulling_qt.py              # macOS Python app (main)
-├── setup.py                   # py2app build configuration
-├── build_macos_app.sh         # Build script for macOS (Python)
-├── build_macos_native.sh      # Build script for macOS (Native SwiftUI)
-├── build_ios_app.sh           # Build script for iOS
-├── create_icon.sh             # Icon creation helper
-├── generate_icon.py           # Bull head icon generator
-├── bulling_icon.svg           # App icon (SVG)
-├── requirements.txt           # Python dependencies
+├── bulling_qt.py                  # Python Qt6 app (cross-platform)
+├── setup.py                       # py2app build configuration
+├── build_desktop_standalone.py    # Desktop standalone builder (NEW!)
+├── build_desktop_standalone.sh    # Shell wrapper for desktop builds (NEW!)
+├── build_macos_app.sh             # Build script for macOS (Python)
+├── build_macos_native.sh          # Build script for macOS (Native SwiftUI)
+├── build_standalone.sh            # Build script for all platforms
+├── build_ios_app.sh               # Build script for iOS
+├── create_icon.sh                 # Icon creation helper
+├── generate_icon.py               # Bull head icon generator
+├── bulling_icon.svg               # App icon (SVG)
+├── requirements.txt               # Python dependencies
 ├── .github/
 │   └── workflows/
-│       └── build-macos-app.yml # CI/CD for automated builds
+│       ├── build-macos-app.yml    # CI/CD for macOS builds
+│       └── build-desktop-standalone.yml # CI/CD for desktop builds (NEW!)
 ├── iOS/
-│   ├── BullingApp.xcodeproj/  # Xcode project (ready to build)
+│   ├── BullingApp.xcodeproj/      # Xcode project (ready to build)
 │   │   └── project.pbxproj
-│   ├── BullingApp/            # iOS app source code
+│   ├── BullingApp/                # iOS app source code
 │   │   ├── BullingApp.swift
 │   │   ├── GameModel.swift
 │   │   ├── SplashScreen.swift
@@ -285,7 +314,7 @@ Pentagon-core-100-things/
 │   │   ├── ScorecardView.swift
 │   │   ├── Info.plist
 │   │   └── Assets.xcassets/
-│   └── Bulling/               # Legacy iOS Swift files
+│   └── Bulling/                   # Legacy iOS Swift files
 ├── macOS/
 │   ├── BullingMac.xcodeproj/  # macOS Xcode project (ready to build)
 │   │   └── project.pbxproj
@@ -309,7 +338,19 @@ Pentagon-core-100-things/
 
 ## 🎯 Package Dependencies
 
-### Python (macOS)
+### Python (Desktop Standalone)
+```
+PySide6>=6.5.0          # Qt6 GUI framework (LGPL)
+pyinstaller>=6.0.0      # Cross-platform executable builder
+```
+
+**Why these packages?**
+- ✅ **PySide6**: Official Qt bindings, professional UI, cross-platform
+- ✅ **PyInstaller**: Creates standalone executables for Win/Linux/macOS
+- ✅ **No dependencies**: End users don't need Python installed
+- ✅ **Single file**: Easy distribution
+
+### Python (macOS .app Bundle)
 ```
 PySide6>=6.5.0          # Qt6 GUI framework (LGPL)
 py2app>=0.28.0          # macOS app builder
@@ -557,6 +598,7 @@ rm -rf build dist
 
 ## 🔗 Quick Links
 
+- **[Desktop Standalone Build Guide](DESKTOP_STANDALONE_GUIDE.md)** - Build cross-platform desktop apps (Windows/Linux/macOS)
 - **[Quick Distribution Guide](QUICK_DISTRIBUTION_GUIDE.md)** - Fast track to creating distribution zips
 - **[Distribution Scripts](DISTRIBUTION_SCRIPTS_README.md)** - Automated zip creation documentation
 - **[Distribution Guide](DISTRIBUTION_GUIDE.md)** - Complete distribution and build guide
