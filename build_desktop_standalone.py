@@ -60,7 +60,7 @@ class Colors:
     
     @staticmethod
     def disable():
-        """Disable colors (for Windows or when piping output)"""
+        """Disable colors (when colors aren't supported)"""
         Colors.RESET = ''
         Colors.RED = ''
         Colors.GREEN = ''
@@ -69,8 +69,9 @@ class Colors:
         Colors.CYAN = ''
         Colors.BOLD = ''
 
-# Disable colors on Windows unless ANSICON is set
-if IS_WINDOWS and not os.environ.get('ANSICON'):
+# Enable colors on all platforms (modern terminals support ANSI)
+# Colors can be disabled by setting NO_COLOR environment variable
+if os.environ.get('NO_COLOR'):
     Colors.disable()
 
 # Global verbose flag
@@ -335,7 +336,7 @@ def print_summary():
 def parse_arguments():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(
-        description='Build standalone desktop executables for Bulling',
+        description='Build standalone desktop executables for Bulling (Bowling Scoring App)',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -352,16 +353,18 @@ Features:
 """
     )
     
-    parser.add_argument(
+    # Create mutually exclusive group for clean options
+    clean_group = parser.add_mutually_exclusive_group()
+    clean_group.add_argument(
         '--clean',
         action='store_true',
         help='Clean previous builds before building'
     )
     
-    parser.add_argument(
+    clean_group.add_argument(
         '--no-clean',
         action='store_true',
-        help='Do not clean previous builds (default)'
+        help='Skip cleaning previous builds (for non-interactive use)'
     )
     
     parser.add_argument(
@@ -392,8 +395,12 @@ def main():
     
     # Handle clean option
     if args.clean:
+        # Explicitly requested clean
         clean_build_dirs()
-    elif not args.no_clean:
+    elif args.no_clean:
+        # Explicitly requested no clean (non-interactive)
+        pass
+    else:
         # Interactive mode (default behavior for backwards compatibility)
         try:
             response = input(f"{Colors.YELLOW}Clean previous builds? (y/N): {Colors.RESET}").strip().lower()
