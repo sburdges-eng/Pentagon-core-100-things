@@ -32,8 +32,11 @@ ENV/
 ._*
 
 # App specific
+bulling_save.dat
 dartstrike_save.dat
 *.icns
+!bulling_icon.svg
+Bulling.iconset/
 DartStrike.iconset/
 
 # Temporary files

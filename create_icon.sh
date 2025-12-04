@@ -7,7 +7,7 @@
 #
 
 echo "================================"
-echo "Dart Strike Icon Creator"
+echo "Bulling Icon Creator"
 echo "================================"
 echo ""
 
@@ -47,7 +47,7 @@ echo "📥 Input file: $input_file"
 echo ""
 
 # Create iconset directory
-iconset_dir="DartStrike.iconset"
+iconset_dir="Bulling.iconset"
 rm -rf "$iconset_dir"
 mkdir "$iconset_dir"
 

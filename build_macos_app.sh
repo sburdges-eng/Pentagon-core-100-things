@@ -9,7 +9,7 @@
 set -e  # Exit on error
 
 echo "================================"
-echo "Dart Strike macOS App Builder"
+echo "Bulling macOS App Builder"
 echo "================================"
 echo ""
 
@@ -37,7 +37,7 @@ if [ ! -f "app_icon.icns" ]; then
     echo "🎨 Creating app icon..."
     # Create a simple icon using iconutil (macOS only)
     # For now, we'll create a placeholder that can be replaced
-    mkdir -p DartStrike.iconset
+    mkdir -p Bulling.iconset
     
     # Create a simple 1024x1024 PNG (placeholder - will be replaced with actual icon)
     # Users can replace app_icon.icns with their own icon file
@@ -59,13 +59,13 @@ echo "   ✓ Build complete!"
 echo ""
 
 # Check if build was successful
-if [ -d "dist/Dart Strike.app" ]; then
+if [ -d "dist/Bulling.app" ]; then
     echo "✅ SUCCESS!"
     echo ""
-    echo "Your app is ready: dist/Dart Strike.app"
+    echo "Your app is ready: dist/Bulling.app"
     echo ""
     echo "To install:"
-    echo "  1. Copy 'Dart Strike.app' to your Applications folder"
+    echo "  1. Copy 'Bulling.app' to your Applications folder"
     echo "  2. Double-click to run"
     echo ""
     echo "To distribute:"

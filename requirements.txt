@@ -1,4 +1,4 @@
-# Dart Strike - Python Qt6 Version
+# Bulling - Python Qt6 Version
 # Dependencies for the bowling scoring application
 
 # Core GUI framework
