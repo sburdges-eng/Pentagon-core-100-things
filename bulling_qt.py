@@ -376,6 +376,28 @@ class BullingApp(QMainWindow):
         # Pin triangle layout (standard 10-pin)
         self.create_pin_layout(pin_layout)
 
+        # Strike/Spare button
+        self.strike_btn = QPushButton("Strike")
+        self.strike_btn.setFont(QFont("Helvetica Neue", 14, QFont.Bold))
+        self.strike_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #FF9500;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 15px 30px;
+            }
+            QPushButton:hover {
+                background-color: #CC7700;
+            }
+            QPushButton:disabled {
+                background-color: #86868B;
+            }
+        """)
+        self.strike_btn.clicked.connect(self.knock_down_all_pins)
+        self.strike_btn.setEnabled(False)
+        pin_layout.addWidget(self.strike_btn)
+
         # Submit throw button
         self.submit_btn = QPushButton("Submit Throw")
         self.submit_btn.setFont(QFont("Helvetica Neue", 14, QFont.Bold))
@@ -533,6 +555,14 @@ class BullingApp(QMainWindow):
         count = sum(1 for pin in self.pins if not pin.standing)
         self.pins_down_label.setText(f"Pins Down: {count}")
 
+    def knock_down_all_pins(self):
+        """Knock down all standing pins (Strike or Spare)"""
+        for pin in self.pins:
+            if pin.standing:
+                pin.standing = False
+                pin.update_style()
+        self.update_pins_count()
+
     def add_player(self):
         """Add a new player"""
         name, ok = QInputDialog.getText(self, "Add Player", "Enter player name:")
@@ -550,6 +580,7 @@ class BullingApp(QMainWindow):
         self.game_started = True
         self.current_player_index = 0
         self.submit_btn.setEnabled(True)
+        self.strike_btn.setEnabled(True)
         self.reset_pins()
         self.update_status()
         self.update_scorecard()
@@ -560,6 +591,7 @@ class BullingApp(QMainWindow):
         self.current_player_index = 0
         self.game_started = False
         self.submit_btn.setEnabled(False)
+        self.strike_btn.setEnabled(False)
         self.reset_pins()
         self.status_label.setText("Add players to start a new game")
         self.update_scorecard()
@@ -683,6 +715,7 @@ class BullingApp(QMainWindow):
         """Handle game completion"""
         self.game_started = False
         self.submit_btn.setEnabled(False)
+        self.strike_btn.setEnabled(False)
 
         # Find winner
         winner = max(self.players, key=lambda p: p.scores[9] or 0)
@@ -774,6 +807,12 @@ class BullingApp(QMainWindow):
         player = self.players[self.current_player_index]
         frame_num = player.current_frame + 1
         throw_num = player.current_throw + 1
+
+        # Update strike button text based on throw number
+        if player.current_throw == 0:
+            self.strike_btn.setText("Strike")
+        else:
+            self.strike_btn.setText("Spare")
 
         self.status_label.setText(f"🎳 {player.name} - Frame {frame_num}, Throw {throw_num}")
         self.status_label.setStyleSheet("""

@@ -95,7 +95,7 @@ class GameModel: ObservableObject {
         pins[index].isStanding.toggle()
     }
 
-    func knockDownAll() {
+    func knockDownAllPins() {
         for index in pins.indices {
             pins[index].isStanding = false
         }
