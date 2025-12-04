@@ -2,17 +2,234 @@
 """
 Bulling - Bowling Scoring App (Python/Qt6 Version)
 Traditional 10-pin bowling with proper scoring
-🐂 Bull head logo with dartboard eyes and bowling pin horns
+Bull head logo with dartboard eyes and bowling pin horns
 """
 
 import sys
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QFrame, QGridLayout, QLineEdit,
-    QMessageBox, QScrollArea, QInputDialog
+    QMessageBox, QScrollArea, QInputDialog, QGraphicsDropShadowEffect,
+    QSplashScreen, QProgressBar
 )
-from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QFont
+from PySide6.QtCore import Qt, Signal, QTimer, QPropertyAnimation, QEasingCurve, Property, QSize
+from PySide6.QtGui import QFont, QPainter, QColor, QBrush, QPen, QRadialGradient, QLinearGradient, QPixmap
+
+
+class BullHeadLogo(QWidget):
+    """Custom widget that draws the bull head logo with dartboard eyes"""
+
+    def __init__(self, size=200, parent=None):
+        super().__init__(parent)
+        self._size = size
+        self._pulse = 0.0
+        self.setFixedSize(size, size)
+
+        # Animation for pulsing effect
+        self._animation = QPropertyAnimation(self, b"pulse")
+        self._animation.setDuration(1500)
+        self._animation.setStartValue(0.0)
+        self._animation.setEndValue(1.0)
+        self._animation.setLoopCount(-1)
+        self._animation.setEasingCurve(QEasingCurve.InOutSine)
+
+    def start_animation(self):
+        self._animation.start()
+
+    def stop_animation(self):
+        self._animation.stop()
+
+    def get_pulse(self):
+        return self._pulse
+
+    def set_pulse(self, value):
+        self._pulse = value
+        self.update()
+
+    pulse = Property(float, get_pulse, set_pulse)
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        size = self._size
+        pulse_scale = 1.0 + (0.02 * abs(self._pulse - 0.5) * 2)
+
+        # Background circle (brown bull head)
+        gradient = QRadialGradient(size/2, size/2, size/2)
+        gradient.setColorAt(0, QColor("#8B4513"))
+        gradient.setColorAt(0.7, QColor("#6B3410"))
+        gradient.setColorAt(1, QColor("#4D2E0C"))
+        painter.setBrush(QBrush(gradient))
+        painter.setPen(QPen(QColor("#3D1E0C"), max(2, size//100)))
+
+        margin = size * 0.05
+        painter.drawEllipse(int(margin), int(margin), int(size - margin*2), int(size - margin*2))
+
+        # Bowling pin horns (left)
+        horn_width = size * 0.12
+        horn_height = size * 0.22
+        painter.setBrush(QBrush(QColor("#FFFFFF")))
+        painter.setPen(QPen(QColor("#E5E5E5"), max(1, size//150)))
+        painter.drawEllipse(int(size * 0.08), int(size * 0.05), int(horn_width), int(horn_height))
+        # Red stripe on horn
+        painter.setBrush(QBrush(QColor("#FF3B30")))
+        painter.drawRect(int(size * 0.095), int(size * 0.18), int(horn_width * 0.75), int(size * 0.035))
+
+        # Bowling pin horns (right)
+        painter.setBrush(QBrush(QColor("#FFFFFF")))
+        painter.setPen(QPen(QColor("#E5E5E5"), max(1, size//150)))
+        painter.drawEllipse(int(size * 0.80), int(size * 0.05), int(horn_width), int(horn_height))
+        painter.setBrush(QBrush(QColor("#FF3B30")))
+        painter.drawRect(int(size * 0.815), int(size * 0.18), int(horn_width * 0.75), int(size * 0.035))
+
+        # Snout
+        snout_gradient = QRadialGradient(size/2, size * 0.65, size * 0.25)
+        snout_gradient.setColorAt(0, QColor("#E8C9A8"))
+        snout_gradient.setColorAt(1, QColor("#D4A574"))
+        painter.setBrush(QBrush(snout_gradient))
+        painter.setPen(QPen(QColor("#B8956A"), max(1, size//150)))
+        painter.drawEllipse(int(size * 0.30), int(size * 0.52), int(size * 0.40), int(size * 0.32))
+
+        # Nostrils
+        painter.setBrush(QBrush(QColor("#2C1810")))
+        painter.setPen(Qt.NoPen)
+        nostril_size = size * 0.06
+        painter.drawEllipse(int(size * 0.37), int(size * 0.66), int(nostril_size), int(nostril_size * 1.3))
+        painter.drawEllipse(int(size * 0.57), int(size * 0.66), int(nostril_size), int(nostril_size * 1.3))
+
+        # Dartboard eyes - with pulse effect
+        eye_size = size * 0.18 * pulse_scale
+        eye_offset = (size * 0.18 - eye_size) / 2
+
+        # Left eye
+        left_x = size * 0.22 + eye_offset
+        left_y = size * 0.32 + eye_offset
+        self._draw_dartboard_eye(painter, left_x, left_y, eye_size)
+
+        # Right eye
+        right_x = size * 0.60 + eye_offset
+        right_y = size * 0.32 + eye_offset
+        self._draw_dartboard_eye(painter, right_x, right_y, eye_size)
+
+    def _draw_dartboard_eye(self, painter, x, y, size):
+        """Draw a dartboard-style eye"""
+        # Outer ring - black
+        painter.setBrush(QBrush(QColor("#1D1D1F")))
+        painter.setPen(Qt.NoPen)
+        painter.drawEllipse(int(x), int(y), int(size), int(size))
+
+        # White ring
+        ring1 = size * 0.12
+        painter.setBrush(QBrush(QColor("#FFFFFF")))
+        painter.drawEllipse(int(x + ring1), int(y + ring1), int(size - ring1*2), int(size - ring1*2))
+
+        # Green ring
+        ring2 = size * 0.24
+        painter.setBrush(QBrush(QColor("#34C759")))
+        painter.drawEllipse(int(x + ring2), int(y + ring2), int(size - ring2*2), int(size - ring2*2))
+
+        # Red bullseye
+        ring3 = size * 0.36
+        painter.setBrush(QBrush(QColor("#FF3B30")))
+        painter.drawEllipse(int(x + ring3), int(y + ring3), int(size - ring3*2), int(size - ring3*2))
+
+        # Center dot
+        ring4 = size * 0.44
+        painter.setBrush(QBrush(QColor("#1D1D1F")))
+        painter.drawEllipse(int(x + ring4), int(y + ring4), int(size - ring4*2), int(size - ring4*2))
+
+
+class SplashScreen(QWidget):
+    """Animated splash screen with bull head logo"""
+
+    finished = Signal()
+
+    def __init__(self):
+        super().__init__()
+        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setFixedSize(400, 500)
+
+        layout = QVBoxLayout(self)
+        layout.setAlignment(Qt.AlignCenter)
+
+        # Bull head logo
+        self.logo = BullHeadLogo(200)
+        layout.addWidget(self.logo, alignment=Qt.AlignCenter)
+
+        # Title
+        title = QLabel("BULLING")
+        title.setFont(QFont("Helvetica Neue", 36, QFont.Bold))
+        title.setStyleSheet("color: #1D1D1F;")
+        title.setAlignment(Qt.AlignCenter)
+        layout.addWidget(title)
+
+        subtitle = QLabel("Bowling Scorer")
+        subtitle.setFont(QFont("Helvetica Neue", 16))
+        subtitle.setStyleSheet("color: #666666;")
+        subtitle.setAlignment(Qt.AlignCenter)
+        layout.addWidget(subtitle)
+
+        layout.addSpacing(20)
+
+        # Progress bar
+        self.progress = QProgressBar()
+        self.progress.setFixedWidth(200)
+        self.progress.setTextVisible(False)
+        self.progress.setStyleSheet("""
+            QProgressBar {
+                border: none;
+                border-radius: 5px;
+                background-color: #E5E5E5;
+                height: 10px;
+            }
+            QProgressBar::chunk {
+                background-color: #007AFF;
+                border-radius: 5px;
+            }
+        """)
+        layout.addWidget(self.progress, alignment=Qt.AlignCenter)
+
+        # Center on screen
+        self.center_on_screen()
+
+        # Start animations
+        self.logo.start_animation()
+
+        # Progress animation
+        self._progress_value = 0
+        self._timer = QTimer(self)
+        self._timer.timeout.connect(self._update_progress)
+        self._timer.start(30)
+
+    def center_on_screen(self):
+        screen = QApplication.primaryScreen().geometry()
+        x = (screen.width() - self.width()) // 2
+        y = (screen.height() - self.height()) // 2
+        self.move(x, y)
+
+    def _update_progress(self):
+        self._progress_value += 2
+        self.progress.setValue(self._progress_value)
+
+        if self._progress_value >= 100:
+            self._timer.stop()
+            self.logo.stop_animation()
+            QTimer.singleShot(300, self._finish)
+
+    def _finish(self):
+        self.finished.emit()
+        self.close()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        # Draw rounded rectangle background
+        painter.setBrush(QBrush(QColor(255, 255, 255, 250)))
+        painter.setPen(QPen(QColor(200, 200, 200), 1))
+        painter.drawRoundedRect(self.rect(), 20, 20)
 
 
 class Pin(QPushButton):
@@ -104,12 +321,21 @@ class BullingApp(QMainWindow):
         layout.setSpacing(15)
         layout.setContentsMargins(20, 20, 20, 20)
 
-        # Title
-        title = QLabel("🐂 BULLING")
+        # Title with logo
+        title_container = QWidget()
+        title_layout = QHBoxLayout(title_container)
+        title_layout.setAlignment(Qt.AlignCenter)
+
+        # Small bull head logo in title
+        title_logo = BullHeadLogo(50)
+        title_layout.addWidget(title_logo)
+
+        title = QLabel("BULLING")
         title.setFont(QFont("Helvetica Neue", 32, QFont.Bold))
-        title.setAlignment(Qt.AlignCenter)
         title.setStyleSheet("color: #1D1D1F; padding: 10px;")
-        layout.addWidget(title)
+        title_layout.addWidget(title)
+
+        layout.addWidget(title_container)
 
         # Status bar
         self.status_label = QLabel("Add players to start a new game")
@@ -711,8 +937,23 @@ def main():
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
 
+    # Show splash screen
+    splash = SplashScreen()
+    splash.show()
+
+    # Create main window (hidden initially)
     window = BullingApp()
-    window.show()
+
+    def show_main_window():
+        window.show()
+        # Center on screen
+        screen = app.primaryScreen().geometry()
+        x = (screen.width() - window.width()) // 2
+        y = (screen.height() - window.height()) // 2
+        window.move(x, y)
+
+    # Connect splash finish to showing main window
+    splash.finished.connect(show_main_window)
 
     sys.exit(app.exec())
 

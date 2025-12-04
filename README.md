@@ -1,4 +1,6 @@
-# 🐂 Bulling - Bowling Scoring Game
+# Bulling - Bowling Scoring Game
+
+[![Build macOS App](../../actions/workflows/build-macos-app.yml/badge.svg)](../../actions/workflows/build-macos-app.yml)
 
 **Strike & Score!** Traditional 10-pin bowling game with a unique bull-themed design.
 
@@ -50,10 +52,31 @@ This repository contains **TWO complete versions** of Bulling:
 
 ### For Users (macOS App Bundle)
 
-1. **Download** `Bulling.app` or `Bulling.zip`
-2. **Unzip** if needed
-3. **Drag** to Applications folder
-4. **Double-click** to play!
+#### Download from GitHub Releases (Recommended)
+
+1. Go to the [Releases page](../../releases)
+2. Download `Bulling-macOS.dmg` or `Bulling-macOS.zip`
+3. **DMG**: Open the disk image and drag Bulling to Applications
+4. **ZIP**: Unzip and drag `Bulling.app` to Applications
+5. **Double-click** to play!
+
+#### Download from GitHub Actions (Latest Build)
+
+1. Go to the [Actions tab](../../actions)
+2. Click on the latest successful "Build macOS App" workflow run
+3. Download one of the artifacts:
+   - `Bulling-macOS-DMG` - Disk image (easiest installation)
+   - `Bulling-macOS-ZIP` - Zipped app bundle
+   - `Bulling-macOS-App` - Raw .app bundle
+4. Extract and run!
+
+#### First Launch Security Note (macOS)
+
+Since the app is not signed with an Apple Developer certificate:
+1. Right-click (or Control-click) on `Bulling.app`
+2. Select "Open" from the context menu
+3. Click "Open" in the security dialog
+4. The app will now open normally in the future
 
 ### For Users (Install from Source)
 
@@ -183,6 +206,9 @@ Pentagon-core-100-things/
 ├── generate_icon.py           # Bull head icon generator
 ├── bulling_icon.svg           # App icon (SVG)
 ├── requirements.txt           # Python dependencies
+├── .github/
+│   └── workflows/
+│       └── build-macos-app.yml # CI/CD for automated builds
 ├── iOS/
 │   └── Bulling/               # iOS Swift app
 │       ├── BullingApp.swift
@@ -222,6 +248,25 @@ Combine (built-in)      # Reactive programming
 ---
 
 ## 🔧 Building & Distribution
+
+### Automated Builds (GitHub Actions)
+
+Every push to the `main` branch or `claude/*` branches automatically triggers a build:
+
+1. **macOS App** is built using py2app on GitHub's macOS runners
+2. **Artifacts** are uploaded and available for download for 30 days
+3. **Releases** are created automatically when you push a version tag (e.g., `v1.0.0`)
+
+To create a release:
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+This will:
+- Build the macOS app
+- Create a GitHub Release with `Bulling-macOS.dmg` and `Bulling-macOS.zip`
+- Anyone can download from the Releases page
 
 ### Quick Distribution (Automated)
 
