@@ -65,7 +65,7 @@ Pentagon-core-100-things/
 **Note**: The JavaFX and Swift versions are provided as reference implementations. 
 The Python Qt6 version is the primary, fully-featured implementation in this repository.
 
-For detailed JavaFX setup instructions, see `SETUP_GUIDE.md` and `COMPLETE_PROJECT_SUMMARY.md`.
+For detailed information about all versions, see `COMPLETE_PROJECT_SUMMARY.md`.
 
 ## 📋 How to Play
 
