@@ -26,13 +26,15 @@
 
 This repository contains **TWO complete versions** of Bulling:
 
-### 1. 🖥️ macOS App (Python/Qt6)
+### 1. 🖥️ macOS App (Native SwiftUI or Python/Qt6)
 **Perfect for desktop use**
 
 - Beautiful native macOS application
+- **Native SwiftUI version** - Pure Swift, no dependencies
+- **Python/Qt6 version** - Cross-platform alternative
 - Double-click to run (no code required!)
 - Standalone .app bundle
-- No Python installation needed for users
+- No installation needed for users
 
 📖 **[macOS Setup Guide](MACOS_APP_GUIDE.md)**
 
@@ -92,7 +94,24 @@ pip3 install .
 bulling
 ```
 
-### For Developers (All Platforms)
+### For Developers (macOS Native SwiftUI)
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd Pentagon-core-100-things
+
+# Option 1: Open the ready-to-build Xcode project (recommended)
+open macOS/BullingMac.xcodeproj
+# Select 'My Mac' and press Cmd+R to build and run!
+
+# Option 2: Build from command line
+./build_macos_native.sh debug     # Build Debug configuration
+./build_macos_native.sh release   # Build Release configuration
+./build_macos_native.sh archive   # Create archive for distribution
+```
+
+### For Developers (Python/Qt6 - Cross-Platform)
 
 ```bash
 # Clone the repository
@@ -111,7 +130,7 @@ bulling  # Run the app
 pip3 install -r requirements.txt
 python3 bulling_qt.py
 
-# Option 4: Build standalone macOS app
+# Option 4: Build standalone macOS app (Python)
 ./build_macos_app.sh
 ```
 
@@ -205,7 +224,8 @@ open bulling_icon.svg
 Pentagon-core-100-things/
 ├── bulling_qt.py              # macOS Python app (main)
 ├── setup.py                   # py2app build configuration
-├── build_macos_app.sh         # Build script for macOS
+├── build_macos_app.sh         # Build script for macOS (Python)
+├── build_macos_native.sh      # Build script for macOS (Native SwiftUI)
 ├── build_ios_app.sh           # Build script for iOS
 ├── create_icon.sh             # Icon creation helper
 ├── generate_icon.py           # Bull head icon generator
@@ -227,7 +247,20 @@ Pentagon-core-100-things/
 │   │   ├── Info.plist
 │   │   └── Assets.xcassets/
 │   └── Bulling/               # Legacy iOS Swift files
-├── macOS/                     # macOS Swift files
+├── macOS/
+│   ├── BullingMac.xcodeproj/  # macOS Xcode project (ready to build)
+│   │   └── project.pbxproj
+│   ├── BullingMac/            # macOS app source code
+│   │   ├── BullingApp.swift
+│   │   ├── GameModel.swift
+│   │   ├── SplashScreen.swift
+│   │   ├── ContentView.swift
+│   │   ├── GameView.swift
+│   │   ├── ScorecardView.swift
+│   │   ├── Info.plist
+│   │   ├── Bulling.entitlements
+│   │   └── Assets.xcassets/
+│   └── Bulling/               # Legacy macOS Swift files
 ├── MACOS_APP_GUIDE.md         # macOS detailed guide
 ├── iOS_SETUP_GUIDE.md         # iOS detailed guide
 └── README.md                  # This file
@@ -294,7 +327,22 @@ This will:
 
 ### Manual Build
 
-#### macOS App
+#### macOS App (Native SwiftUI - Recommended)
+
+```bash
+# Option 1: Open in Xcode (easiest)
+open macOS/BullingMac.xcodeproj
+# Then: Product → Run (Cmd+R) or Product → Archive
+
+# Option 2: Build from command line
+./build_macos_native.sh debug     # Build Debug configuration
+./build_macos_native.sh release   # Build Release (creates dist/Bulling.app)
+./build_macos_native.sh archive   # Create archive for distribution
+
+# Result: dist/Bulling.app or build/macos/Bulling.xcarchive
+```
+
+#### macOS App (Python/Qt6 - Cross-Platform)
 
 ```bash
 # Build the app

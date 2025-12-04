@@ -176,20 +176,20 @@ struct FrameCell: View {
         )
     }
     
-    func formatThrow(_ throw: Int?, isStrike: Bool = false, prev: Int? = nil) -> String {
-        guard let throw = throw else { return "" }
-        if isStrike && throw == 10 { return "X" }
-        if let prev = prev, prev + throw == 10 { return "/" }
-        if throw == 0 { return "-" }
-        return "\(throw)"
+    func formatThrow(_ throwValue: Int?, isStrike: Bool = false, prev: Int? = nil) -> String {
+        guard let throwValue = throwValue else { return "" }
+        if isStrike && throwValue == 10 { return "X" }
+        if let prev = prev, prev + throwValue == 10 { return "/" }
+        if throwValue == 0 { return "-" }
+        return "\(throwValue)"
     }
-    
-    func formatThrow10th(_ throw: Int?, prev: Int?) -> String {
-        guard let throw = throw else { return "" }
-        if throw == 10 { return "X" }
-        if let prev = prev, prev + throw == 10 { return "/" }
-        if throw == 0 { return "-" }
-        return "\(throw)"
+
+    func formatThrow10th(_ throwValue: Int?, prev: Int?) -> String {
+        guard let throwValue = throwValue else { return "" }
+        if throwValue == 10 { return "X" }
+        if let prev = prev, prev + throwValue == 10 { return "/" }
+        if throwValue == 0 { return "-" }
+        return "\(throwValue)"
     }
 }
 
