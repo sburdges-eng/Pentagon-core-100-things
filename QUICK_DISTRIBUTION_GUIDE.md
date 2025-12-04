@@ -34,6 +34,22 @@ Get your Bulling app ready for distribution in minutes!
 - They unzip and drag to Applications
 - Done! They can double-click to play
 
+### macOS Personal-Use DMG (no license prompts)
+
+```bash
+./create_macos_dmg.sh
+```
+
+**What it does:**
+1. Builds the macOS app if missing
+2. Stages a DMG with a personal-use note (unsigned, no EULA)
+3. Creates `dist/Bulling-macOS-Personal.dmg`
+
+**Share with users:**
+- Send them `dist/Bulling-macOS-Personal.dmg`
+- They open the DMG, drag `Bulling.app` to Applications
+- Control+click first launch and choose **Open** to bypass unsigned warning
+
 ### iOS Source Files Package
 
 ```bash
@@ -196,6 +212,9 @@ Check for error messages in the script output. Common causes:
 
 # Just macOS (macOS only)
 ./create_macos_zip.sh
+
+# Just macOS DMG (macOS only)
+./create_macos_dmg.sh
 
 # Just iOS (any platform)
 ./create_ios_zip.sh

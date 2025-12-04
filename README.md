@@ -168,6 +168,9 @@ python3 bulling_qt.py
 
 # Option 4: Build standalone macOS app (Python)
 ./build_macos_app.sh
+
+# Option 5: Create a DMG for personal use (unsigned, no license prompts)
+./create_macos_dmg.sh
 ```
 
 ### For Developers (iOS)

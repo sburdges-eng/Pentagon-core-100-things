@@ -22,6 +22,14 @@ This creates:
 **Output**: `dist/Bulling-macOS.zip`
 **Contains**: Complete macOS application bundle
 
+#### macOS Personal-Use DMG
+```bash
+./create_macos_dmg.sh
+```
+**Requirements**: macOS with `hdiutil`
+**Output**: `dist/Bulling-macOS-Personal.dmg`
+**Contains**: Unsigned DMG with app bundle and personal-use note (no EULA)
+
 #### iOS Source Files Zip
 ```bash
 ./create_ios_zip.sh
@@ -49,6 +57,17 @@ This creates:
 - SETUP.txt with quick instructions
 - Size: ~20 KB
 
+### Bulling-macOS-Personal.dmg
+- `Bulling.app` - Complete macOS application
+- `PERSONAL_USE_ONLY.txt` - Clarifies unsigned, personal-only distribution
+- Volume name: `Bulling (Personal Use)`
+- Size: similar to the macOS zip (compressed UDZO DMG)
+
+**For users:**
+1. Open the DMG on macOS
+2. Drag `Bulling.app` to Applications
+3. Control+click the first launch and choose "Open" to bypass unsigned warning
+
 **For developers:**
 1. Download and unzip
 2. Open Xcode
@@ -61,6 +80,7 @@ This creates:
 | Script | Purpose | Platform | Output |
 |--------|---------|----------|--------|
 | `create_distribution_zips.sh` | Create both zips | macOS (both) / Linux (iOS only) | Both zip files |
+| `create_macos_dmg.sh` | Create personal-use DMG | macOS only | `dist/Bulling-macOS-Personal.dmg` |
 | `create_macos_zip.sh` | Create macOS zip | macOS only | `dist/Bulling-macOS.zip` |
 | `create_ios_zip.sh` | Create iOS zip | Any | `dist/Bulling-iOS.zip` |
 
