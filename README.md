@@ -1,98 +1,71 @@
-# 🎯🎳 Dart Strike - JavaFX Desktop Application
+# 🎯🎳 Dart Strike - Multi-Platform Bowling Game
 
-**Dart Strike** is a hybrid darts-bowling game for desktop where players click pins to knock them down and score points using traditional bowling rules.
+**Dart Strike** is a hybrid darts-bowling game available in multiple versions where players click/tap pins to knock them down and score points using traditional bowling rules.
+
+## 🎮 Available Versions
+
+This repository contains:
+1. **Python Qt6 Version** (`dart_strike_qt.py`) - Desktop app using PySide6 ⭐ **Primary Version**
+2. **JavaFX Version** (DartStrikeApp.java) - Java desktop application
+3. **iOS Swift Version** (DartStrikeApp.swift) - Native iOS/iPadOS app
 
 ## 📱 Features
 
 - **Interactive Pin Layout**: Click bowling pins to knock them down
+- **Dartboard Values**: Pins display dartboard black section values (20, 3, 11, 8, 16, 7, 19, 12, 18, 9)
 - **Traditional Bowling Scoring**: Full implementation of strikes, spares, and open frames
 - **Multi-Player Support**: Up to 8 players can compete
 - **Auto Pin Reset**: Pins automatically reset after frames and turns ✅ **BUG FIXED**
-- **Game State Saving**: Resume games after closing the app
 - **Professional Scorecard**: View cumulative scores and frame-by-frame breakdown
 - **10th Frame Rules**: Proper bonus throws for strikes and spares
 - **Cross-Platform**: Runs on Windows, Mac, and Linux
 
-## 🏗️ Project Structure
-
-```
-DartStrike-JavaFX/
-├── pom.xml                              # Maven build configuration
-├── src/
-│   ├── main/
-│   │   ├── java/com/dartstrike/
-│   │   │   ├── DartStrikeApp.java       # Main application entry
-│   │   │   ├── models/
-│   │   │   │   ├── Pin.java             # Pin model
-│   │   │   │   ├── Frame.java           # Frame model
-│   │   │   │   ├── Player.java          # Player model
-│   │   │   │   └── GameModel.java       # Core game logic ✅ PIN RESET FIXED
-│   │   │   ├── controllers/
-│   │   │   │   ├── PlayerSetupController.java
-│   │   │   │   ├── GameViewController.java
-│   │   │   │   └── ScorecardController.java
-│   │   │   └── utils/
-│   │   │       └── PersistenceManager.java
-│   │   └── resources/
-│   │       └── fxml/
-│   │           ├── PlayerSetupView.fxml
-│   │           ├── GameView.fxml
-│   │           └── ScorecardView.fxml
-```
-
-## 🚀 Getting Started
+## 🚀 Quick Start - Python Qt6 Version (Recommended)
 
 ### Prerequisites
+- **Python 3.8+** (Python 3.12 recommended)
+- **PySide6** (Qt6 for Python)
 
-- **Java JDK 11+** (Java 17 recommended)
-- **Maven 3.6+**
-- **JavaFX 17+** (handled by Maven)
-
-### Installation Steps
-
-#### Option 1: Using Maven (Recommended)
-
-1. **Clone or Download Project**
-   ```bash
-   cd DartStrike-JavaFX
-   ```
-
-2. **Build with Maven**
-   ```bash
-   mvn clean package
-   ```
-
-3. **Run the Application**
-   ```bash
-   mvn javafx:run
-   ```
-
-#### Option 2: Using IDE (IntelliJ IDEA / Eclipse)
-
-**IntelliJ IDEA:**
-1. Open IntelliJ IDEA
-2. File → Open → Select `DartStrike-JavaFX` folder
-3. Wait for Maven to import dependencies
-4. Right-click `DartStrikeApp.java` → Run
-
-**Eclipse:**
-1. Open Eclipse
-2. File → Import → Maven → Existing Maven Projects
-3. Select `DartStrike-JavaFX` folder
-4. Right-click project → Run As → Java Application
-5. Select `DartStrikeApp` as main class
-
-#### Option 3: Command Line with Java
+### Installation & Running
 
 ```bash
-# Compile
-javac --module-path $PATH_TO_FX --add-modules javafx.controls,javafx.fxml -d out src/main/java/com/dartstrike/**/*.java
+# Install dependencies
+pip install -r requirements.txt
 
-# Run
-java --module-path $PATH_TO_FX --add-modules javafx.controls,javafx.fxml -cp out com.dartstrike.DartStrikeApp
+# Run the application
+python3 dart_strike_qt.py
 ```
 
-Replace `$PATH_TO_FX` with your JavaFX lib path.
+### How to Play
+1. Click "Add Player" to add players (up to 8)
+2. Click "Start Game" to begin
+3. Click pins with dartboard values to knock them down
+4. Click "Submit Throw" to record your throw
+5. Game automatically advances to next player
+6. View scores in the scorecard on the right
+
+## 🏗️ Project Structure (All Versions)
+
+```
+Pentagon-core-100-things/
+├── dart_strike_qt.py                    # Python Qt6 version (PRIMARY)
+├── requirements.txt                     # Python dependencies
+├── DartStrikeApp.java                   # Java/JavaFX version
+├── DartStrikeApp.swift                  # iOS Swift version
+├── GameModel.java                       # Java game logic
+├── GameModel.swift                      # Swift game logic
+├── README.md                            # This file
+├── README_DART_VALUES.md                # Dartboard values documentation
+├── TODO.md                              # Task tracking
+└── Documentation files                  # Setup guides and summaries
+```
+
+## 🚀 Getting Started - JavaFX Version (Alternative)
+
+**Note**: The JavaFX and Swift versions are provided as reference implementations. 
+The Python Qt6 version is the primary, fully-featured implementation in this repository.
+
+For detailed JavaFX setup instructions, see `SETUP_GUIDE.md` and `COMPLETE_PROJECT_SUMMARY.md`.
 
 ## 📋 How to Play
 
