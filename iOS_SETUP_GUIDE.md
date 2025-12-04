@@ -4,11 +4,25 @@ Complete guide for creating and building the Bulling iOS app in Xcode.
 
 ---
 
+## ⚠️ **PERSONAL USE ONLY**
+
+**This app is for personal, non-commercial use only.**
+- ✅ Install on your personal devices
+- ✅ Share with friends and family for personal use
+- ❌ **Cannot** publish to App Store
+- ❌ **Cannot** use for commercial purposes
+- ❌ **Cannot** distribute via TestFlight for public/commercial use
+
+See [LICENSE.txt](LICENSE.txt) for complete terms.
+
+---
+
 ## 📋 Prerequisites
 
 - **macOS** 11.0 (Big Sur) or later
 - **Xcode** 14.0 or later
 - **iOS device** or Simulator running iOS 15.0+
+- **Personal Apple ID** (free) or Apple Developer account (optional)
 
 ---
 
@@ -164,27 +178,60 @@ To add a custom bull head icon:
 
 ---
 
-## 📦 Distribution
+## 📦 Personal Distribution Methods
 
-### TestFlight (Beta Testing)
+⚠️ **Remember:** This app is for personal use only. Do not publish to App Store or TestFlight for public distribution.
 
+### iOS Simulator (For Testing)
+
+1. Build and run in Xcode: **⌘R**
+2. Select an iOS Simulator as the destination
+3. Perfect for testing before installing on devices
+
+### Personal Device Installation (Sideloading)
+
+**Method 1: Direct Install via Xcode (7-day signing with free Apple ID)**
+1. Connect your iPhone/iPad to your Mac
+2. Select your device in Xcode
+3. Trust computer on device
+4. Build & Run: **⌘R**
+5. Trust developer certificate on device (Settings → General → VPN & Device Management)
+
+**Note:** Apps signed with free Apple ID expire after 7 days and must be re-installed.
+
+**Method 2: AltStore (Recommended for Personal Use)**
 1. Archive your app: **Product** → **Archive**
-2. Click **Distribute App**
-3. Select **TestFlight & App Store**
-4. Follow the prompts to upload
+2. Export as **Development** or **Ad Hoc**
+3. Install [AltStore](https://altstore.io/) on Mac and iPhone
+4. Use AltStore to sideload the .ipa file
+5. AltStore auto-refreshes apps before expiration (when running)
 
-### App Store
+**Method 3: Sideloadly**
+1. Archive and export .ipa
+2. Download [Sideloadly](https://sideloadly.io/)
+3. Connect device and drag .ipa into Sideloadly
+4. Sign in with Apple ID and install
 
-1. Create app in **App Store Connect**
-2. Archive and submit following Apple's guidelines
-3. Wait for review
+**Method 4: Personal Developer Account ($99/year)**
+1. Sign up for [Apple Developer Program](https://developer.apple.com/programs/)
+2. Sign app with your developer certificate
+3. Apps valid for 1 year (no weekly re-signing)
+4. Still for **personal use only** - cannot publish to public App Store due to license
 
-### Ad-Hoc Distribution
+### ⛔ What You CANNOT Do
 
-1. Archive your app
-2. Export with **Ad Hoc** distribution
-3. Share the .ipa file
-4. Install using Apple Configurator or similar tools
+- ❌ **Publish to App Store** - Violates personal use license
+- ❌ **Public TestFlight distribution** - Personal use only
+- ❌ **Commercial distribution** - Non-commercial license
+- ❌ **Enterprise distribution for business** - Personal use restriction
+
+### ✅ What You CAN Do
+
+- ✅ Install on your personal devices
+- ✅ Share .ipa with friends/family for their personal devices
+- ✅ Use sideloading tools (AltStore, Sideloadly)
+- ✅ Sign with your personal developer certificate
+- ✅ Test in iOS Simulator
 
 ---
 

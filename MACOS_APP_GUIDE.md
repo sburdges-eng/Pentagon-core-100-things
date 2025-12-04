@@ -1,6 +1,18 @@
-# 🎯 Dart Strike - Easy Installation Guide for macOS
+# 🐂 Bulling - Easy Installation Guide for macOS
 
 **No coding required! Just follow these simple steps.**
+
+---
+
+## ⚠️ **PERSONAL USE ONLY**
+
+**This app is for personal, non-commercial use only.**
+- ✅ Free for personal entertainment
+- ✅ Share with friends and family
+- ❌ No commercial use or distribution
+- ❌ No Mac App Store publishing
+
+See [LICENSE.txt](LICENSE.txt) for complete terms.
 
 ---
 
@@ -8,20 +20,26 @@
 
 ### Option 1: Download Pre-Built App (Easiest) ⭐
 
-1. **Download** the `Dart Strike.zip` file from the release
+1. **Download** the `Bulling-macOS.zip` file from the release
 2. **Double-click** the zip file to unzip it
-3. **Drag** `Dart Strike.app` to your Applications folder
-4. **Double-click** Dart Strike in Applications to play!
+3. **Drag** `Bulling.app` to your Applications folder
+4. **Double-click** Bulling in Applications to play!
 
 **That's it!** 🎉
 
 ### First Launch Note
-When you first open the app, macOS may show a security warning because the app isn't from the App Store.
+When you first open the app, macOS may show a security warning because the app is unsigned (for personal use only).
 
 **To allow it:**
-1. Go to **System Settings** → **Privacy & Security**
-2. Scroll down and click **"Open Anyway"** next to Dart Strike
+1. **Right-click** (or Control-click) on `Bulling.app`
+2. Click **"Open"** from the menu
 3. Click **"Open"** in the confirmation dialog
+
+**Alternative method:**
+1. Try to open the app (it will be blocked)
+2. Go to **System Settings** → **Privacy & Security**
+3. Scroll down and click **"Open Anyway"** next to Bulling
+4. Click **"Open"** in the confirmation dialog
 
 You only need to do this once!
 
@@ -30,7 +48,7 @@ You only need to do this once!
 ## 🎮 How to Play
 
 ### Starting a Game
-1. **Launch Dart Strike** from Applications
+1. **Launch Bulling** from Applications
 2. **Click "Add Player"** to add each player (up to 8 players)
 3. **Click "Start Game"** when ready
 
@@ -80,7 +98,7 @@ If you want to build the app from source code:
    ```
 
 4. **Find your app**:
-   - Located in: `dist/Dart Strike.app`
+   - Located in: `dist/Bulling.app`
    - Copy to Applications folder
    - Double-click to run!
 
@@ -92,7 +110,7 @@ pip3 install -r requirements.txt
 # Build the app
 python3 setup.py py2app
 
-# Your app is in: dist/Dart Strike.app
+# Your app is in: dist/Bulling.app
 ```
 
 ---
@@ -151,20 +169,28 @@ python3 setup.py py2app
 
 ### Changing the App Icon
 1. Create or find a 1024×1024 PNG icon
-2. Convert to .icns format:
+2. Use the provided icon generation script:
+   ```bash
+   # Generate the bull head icon
+   python3 generate_icon.py
+   
+   # Convert SVG to PNG and create .icns
+   ./create_icon.sh bulling_icon.png
+   ```
+3. Or create manually:
    ```bash
    # Create iconset folder
-   mkdir DartStrike.iconset
+   mkdir Bulling.iconset
    
    # Add your PNG images in various sizes
    # (512x512, 256x256, 128x128, 64x64, 32x32, 16x16)
    # Named: icon_512x512.png, icon_256x256.png, etc.
    
    # Convert to .icns
-   iconutil -c icns DartStrike.iconset -o app_icon.icns
+   iconutil -c icns Bulling.iconset -o app_icon.icns
    ```
-3. Replace `app_icon.icns` in the project
-4. Rebuild the app
+4. Replace `app_icon.icns` in the project
+5. Rebuild the app
 
 ### Modifying Colors/Styles
 Edit `dart_strike_qt.py` and change the color values in the `setStyleSheet()` calls.
@@ -194,35 +220,51 @@ Edit `dart_strike_qt.py` and change the color values in the `setStyleSheet()` ca
 
 ---
 
-## 📤 Distributing the App
+## 📤 Distributing the App (Personal Use)
 
-### For macOS Users
+### For Personal Distribution
+
+⚠️ **Remember:** This app is for personal use only. Do not publish to Mac App Store.
 
 1. **Zip the app**:
    ```bash
    cd dist
-   zip -r "Dart Strike.zip" "Dart Strike.app"
+   zip -r "Bulling-macOS.zip" "Bulling.app"
    ```
 
-2. **Share** the zip file via:
+2. **Share with friends/family** via:
    - Email
    - Cloud storage (Dropbox, Google Drive, etc.)
    - USB drive
-   - Website download
+   - Direct file transfer
 
 3. **Recipients** simply:
    - Unzip the file
    - Copy to Applications
-   - Double-click to run!
+   - Right-click → Open (first time)
+   - Play!
 
-### Optional: Code Signing (Advanced)
-For commercial distribution, you may want to sign the app with an Apple Developer certificate:
+### ⛔ What You CANNOT Do
+
+- ❌ **Publish to Mac App Store** - Violates personal use license
+- ❌ **Commercial distribution** - Non-commercial license only
+- ❌ **Sell or monetize** - Free for personal use only
+
+### ✅ What You CAN Do
+
+- ✅ Share with friends and family for personal use
+- ✅ Install on your personal Macs
+- ✅ Modify for personal use
+- ✅ Create personal backups
+
+### Optional: Code Signing (For Personal Use)
+If you have a personal Apple Developer account, you can sign the app to avoid the security warning:
 
 ```bash
-codesign --deep --force --verify --verbose --sign "Developer ID Application: Your Name" "Dart Strike.app"
+codesign --deep --force --verify --verbose --sign "Developer ID Application: Your Name" "Bulling.app"
 ```
 
-This removes the security warning for users.
+This removes the security warning for users. Still for **personal use only** - cannot publish to Mac App Store.
 
 ---
 
@@ -285,4 +327,14 @@ A: No! Fully offline, no internet required.
 
 **Ready to play? Double-click and enjoy! 🎳**
 
-For more information, see the main README.md file.
+---
+
+## 📜 License
+
+**PERSONAL USE ONLY** - See [LICENSE.txt](LICENSE.txt) for complete terms.
+
+This software is free for personal, non-commercial use. You may share with 
+friends and family, but cannot publish to app stores or use commercially.
+
+For more information, see the main [README.md](README.md) file and 
+[PERSONAL_USE_README.md](PERSONAL_USE_README.md).

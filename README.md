@@ -8,6 +8,18 @@
 
 ---
 
+## ⚠️ **PERSONAL USE ONLY**
+
+**This software is provided for personal, non-commercial use only.**
+- ✅ Free for personal entertainment
+- ❌ No commercial use or distribution
+- ❌ No app store publishing
+- ❌ No business/organizational use
+
+📖 **See [PERSONAL_USE_README.md](PERSONAL_USE_README.md) for complete licensing terms and download instructions**
+
+---
+
 ## 🎮 Features
 
 - **🐂 Unique Bull Head Design**: Dartboard eyes & bowling pin horns
@@ -39,18 +51,42 @@ This repository contains **TWO complete versions** of Bulling:
 📖 **[macOS Setup Guide](MACOS_APP_GUIDE.md)**
 
 ### 2. 📱 iOS App (Swift/SwiftUI)
-**Perfect for mobile devices**
+**Perfect for mobile devices (Personal Use)**
 
 - Native iOS & iPadOS app
 - Animated splash screen
 - Touch-optimized interface
-- App Store ready
+- For personal sideloading only (not App Store)
 
 📖 **[iOS Setup Guide](iOS_SETUP_GUIDE.md)**
 
 ---
 
 ## 🚀 Quick Start
+
+📥 **[QUICK DOWNLOAD GUIDE](QUICK_DOWNLOAD.md)** - Fast track to download and install!
+
+### For Users (Standalone Apps - Personal Use)
+
+#### Build Standalone Apps for Personal Distribution
+
+```bash
+# Build unsigned, standalone apps for personal use
+./build_standalone.sh all         # Build everything
+./build_standalone.sh macos       # macOS only
+./build_standalone.sh ios         # iOS simulator only
+./build_standalone.sh ios-device  # iOS device (unsigned)
+```
+
+**Creates:**
+- `dist/Bulling-macOS.app` - macOS standalone app
+- `dist/Bulling-iOS-Simulator.app` - iOS simulator app
+- `dist/Bulling-iOS-Unsigned.ipa` - iOS device app (for sideloading)
+
+**Perfect for:**
+- Personal use and testing
+- Sharing with friends and family
+- No signing or developer account required
 
 ### For Users (macOS App Bundle)
 
@@ -371,12 +407,10 @@ open iOS/BullingApp.xcodeproj
 ./create_ios_zip.sh
 # Result: dist/Bulling-iOS.zip
 
-# Distribution via Xcode:
-1. Archive: Product → Archive
-2. Distribute:
-   - TestFlight: Beta testing
-   - App Store: Public release
-   - Ad-Hoc: Direct distribution
+# Personal Distribution (No App Store):
+# - Share .ipa files with friends/family for sideloading
+# - Use AltStore, Sideloadly, or personal developer certificate
+# - ⚠️ NOT for App Store or TestFlight (personal use license)
 ```
 
 ---
@@ -453,12 +487,13 @@ rm -rf build dist
 |---------|-------|-----|
 | **Platform** | macOS 10.13+ | iOS 15.0+ |
 | **UI Framework** | Qt6/PySide6 | SwiftUI |
-| **Distribution** | .app or .zip | App Store/TestFlight |
+| **Distribution** | .app or .zip | Sideloading (.ipa) |
 | **Setup Time** | 5 min | 10 min |
-| **User Install** | Drag & drop | App Store download |
+| **User Install** | Drag & drop | AltStore/Sideloadly |
 | **Dev Environment** | Any IDE + Python | Xcode required |
 | **Bull Logo** | In app | Splash + in app |
 | **File Size** | ~100-150 MB | ~5-10 MB |
+| **Use Case** | Personal desktop | Personal mobile |
 
 ---
 
@@ -486,10 +521,20 @@ rm -rf build dist
 
 ## 📄 License
 
-Check the repository license file for details.
+**PERSONAL USE ONLY** - See [LICENSE.txt](LICENSE.txt) for complete terms.
 
-PySide6 is LGPL licensed.
-SwiftUI is part of Apple's SDK.
+**Summary:**
+- ✅ Free for personal, non-commercial use
+- ✅ Share with friends and family
+- ❌ No commercial use or monetization
+- ❌ No app store publishing (Apple App Store, Google Play, etc.)
+- ❌ No business or organizational use
+
+**Third-Party Components:**
+- **PySide6** (Qt6): LGPL licensed - users must comply with LGPL terms
+- **SwiftUI**: Part of Apple's SDK - subject to Apple's terms
+
+📖 **Full personal use guide: [PERSONAL_USE_README.md](PERSONAL_USE_README.md)**
 
 ---
 
