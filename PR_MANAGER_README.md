@@ -25,28 +25,36 @@ No installation required beyond Python 3. The script is standalone.
 ### Basic Usage
 
 ```bash
-python pr_manager.py
+python pr_manager.py --repo-owner <owner> --repo-name <repository>
 ```
 
-This will process all open PRs in the default repository (`sburdges-eng/Pentagon-core-100-things`).
+Example:
+```bash
+python pr_manager.py --repo-owner sburdges-eng --repo-name Pentagon-core-100-things
+```
+
+This will process all open PRs in the specified repository.
 
 ### With Custom Repository
 
 ```bash
-python pr_manager.py --repo-owner <owner> --repo-name <repository>
+python pr_manager.py --repo-owner myorg --repo-name myproject
 ```
 
 ### With GitHub Token (Recommended)
 
 ```bash
-python pr_manager.py --github-token <your-token>
+python pr_manager.py \
+  --repo-owner sburdges-eng \
+  --repo-name Pentagon-core-100-things \
+  --github-token <your-token>
 ```
 
 Or set the environment variable:
 
 ```bash
 export GITHUB_TOKEN=<your-token>
-python pr_manager.py
+python pr_manager.py --repo-owner sburdges-eng --repo-name Pentagon-core-100-things
 ```
 
 ### Full Options
@@ -55,7 +63,8 @@ python pr_manager.py
 python pr_manager.py \
   --repo-owner sburdges-eng \
   --repo-name Pentagon-core-100-things \
-  --github-token ghp_xxxxxxxxxxxx
+  --github-token ghp_xxxxxxxxxxxx \
+  --dry-run
 ```
 
 ### GitHub Actions Workflow

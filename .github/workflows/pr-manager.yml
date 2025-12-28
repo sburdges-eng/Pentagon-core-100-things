@@ -48,7 +48,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Running in DRY RUN mode..."
-          python pr_manager.py --dry-run
+          python pr_manager.py \
+            --repo-owner ${{ github.repository_owner }} \
+            --repo-name ${{ github.event.repository.name }} \
+            --dry-run
       
       - name: Run PR Manager (Live Mode)
         if: github.event.inputs.dry_run == 'false'
@@ -56,7 +59,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Running in LIVE mode..."
-          python pr_manager.py
+          python pr_manager.py \
+            --repo-owner ${{ github.repository_owner }} \
+            --repo-name ${{ github.event.repository.name }}
       
       - name: Upload PR Manager Log
         if: always()

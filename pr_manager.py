@@ -19,6 +19,7 @@ import json
 import os
 import subprocess
 import sys
+import traceback
 import urllib.request
 import urllib.error
 from pathlib import Path
@@ -97,7 +98,7 @@ class PRManager:
         """Fallback: Get PRs by examining git branches."""
         default_branch = self.get_default_branch()
         returncode, stdout, stderr = self.run_git_command(
-            ['git', 'branch', '-r', '--no-merged', f'{default_branch}']
+            ['git', 'branch', '-r', '--no-merged', f'origin/{default_branch}']
         )
         
         if returncode != 0:
@@ -511,7 +512,6 @@ Please review the conflicts, resolve them, and update this PR. The original PR r
                 self.process_pr(pr)
             except Exception as e:
                 print(f"Error processing PR: {e}")
-                import traceback
                 traceback.print_exc()
         
         # Print summary
@@ -519,13 +519,16 @@ Please review the conflicts, resolve them, and update this PR. The original PR r
 
 
 def main():
-    parser = argparse.ArgumentParser(description='PR Management Agent')
-    parser.add_argument('--repo-owner', default='sburdges-eng',
-                        help='Repository owner (default: sburdges-eng)')
-    parser.add_argument('--repo-name', default='Pentagon-core-100-things',
-                        help='Repository name (default: Pentagon-core-100-things)')
+    parser = argparse.ArgumentParser(
+        description='PR Management Agent',
+        epilog='Repository owner and name are required arguments.'
+    )
+    parser.add_argument('--repo-owner', required=True,
+                        help='Repository owner (GitHub username or organization)')
+    parser.add_argument('--repo-name', required=True,
+                        help='Repository name')
     parser.add_argument('--github-token', 
-                        help='GitHub personal access token (optional)')
+                        help='GitHub personal access token (optional, can also use GITHUB_TOKEN env var)')
     parser.add_argument('--dry-run', action='store_true',
                         help='Test mode - analyze PRs but do not push changes')
     
