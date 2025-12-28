@@ -58,6 +58,18 @@ python pr_manager.py \
   --github-token ghp_xxxxxxxxxxxx
 ```
 
+### GitHub Actions Workflow
+
+The repository includes a GitHub Actions workflow (`.github/workflows/pr-manager.yml`) that can automatically run the PR manager on a schedule or manually.
+
+**Manual trigger:**
+1. Go to Actions tab in GitHub
+2. Select "PR Manager - Auto Merge" workflow
+3. Click "Run workflow"
+4. Choose dry-run mode (recommended for first run)
+
+The workflow runs in dry-run mode by default when triggered on schedule.
+
 ## How It Works
 
 For each open pull request:
