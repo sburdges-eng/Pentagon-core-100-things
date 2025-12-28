@@ -1,0 +1,123 @@
+================================================================================
+                         PR MANAGEMENT AGENT FLOW
+================================================================================
+
+                              START
+                                |
+                                v
+                    +-----------------------+
+                    | Fetch All Open PRs    |
+                    | from GitHub API       |
+                    +-----------------------+
+                                |
+                                v
+                    +-----------------------+
+                    | Identify Target       |
+                    | Branch (main/master)  |
+                    +-----------------------+
+                                |
+                                v
+                    +-----------------------+
+                    | For Each PR:          |
+                    | Test Merge Capability |
+                    +-----------------------+
+                                |
+                +---------------+---------------+
+                |                               |
+                v                               v
+    +-----------------------+       +-----------------------+
+    | NO CONFLICTS          |       | CONFLICTS DETECTED    |
+    +-----------------------+       +-----------------------+
+                |                               |
+                v                               v
+    +-----------------------+       +-----------------------+
+    | 1. Merge PR into      |       | 1. Create branch:     |
+    |    target branch      |       |    conflicts/<name>   |
+    +-----------------------+       +-----------------------+
+                |                               |
+                v                               v
+    +-----------------------+       +-----------------------+
+    | 2. Push merge to      |       | 2. Document conflicts |
+    |    remote             |       |    in CONFLICTS_*.md  |
+    +-----------------------+       +-----------------------+
+                |                               |
+                v                               v
+    +-----------------------+       +-----------------------+
+    | 3. Delete source      |       | 3. Push conflicts     |
+    |    branch (local +    |       |    branch to remote   |
+    |    remote)            |       +-----------------------+
+    +-----------------------+                   |
+                |                               v
+                v                   +-----------------------+
+    +-----------------------+       | 4. Comment on PR with |
+    | 4. Record as MERGED   |       |    conflicting files  |
+    +-----------------------+       +-----------------------+
+                |                               |
+                |                               v
+                |                   +-----------------------+
+                |                   | 5. Leave PR OPEN      |
+                |                   +-----------------------+
+                |                               |
+                |                               v
+                |                   +-----------------------+
+                |                   | 6. Record as          |
+                |                   |    CONFLICTED         |
+                |                   +-----------------------+
+                |                               |
+                +---------------+---------------+
+                                |
+                                v
+                    +-----------------------+
+                    | Next PR?              |
+                    +-----------------------+
+                                |
+                        +-------+-------+
+                        |               |
+                    Yes |               | No
+                        v               v
+                    (loop)      +-----------------------+
+                                | Print Summary:        |
+                                | - Merged PRs          |
+                                | - Conflicted PRs      |
+                                | - Total Stats         |
+                                +-----------------------+
+                                        |
+                                        v
+                                      END
+
+================================================================================
+                              SAFETY FEATURES
+================================================================================
+
+✓ Dry-run mode available for testing
+✓ Automatic stashing of uncommitted changes  
+✓ No force push operations ever used
+✓ Conflicts never auto-resolved
+✓ All conflict states preserved
+✓ Returns to original branch after operations
+✓ Comprehensive error handling and rollback
+
+================================================================================
+                           OUTPUT EXAMPLE
+================================================================================
+
+PR PROCESSING SUMMARY
+============================================================
+
+✓ Successfully Merged and Deleted:
+  - PR #15: Feature: Add new widget
+    Branch: feature/new-widget
+  - PR #17: Refactor: Clean up code
+    Branch: refactor/cleanup
+
+✗ Moved to Conflicts Branch:
+  - PR #16: Fix: Update dependencies
+    Branch: fix/deps -> conflicts/fix/deps
+    Conflicts in: package.json, requirements.txt
+
+============================================================
+Total processed: 3
+Merged: 2
+Conflicts: 1
+============================================================
+
