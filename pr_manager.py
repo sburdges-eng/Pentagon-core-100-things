@@ -26,7 +26,7 @@ from typing import List, Dict, Optional, Tuple
 
 
 class PRManager:
-    def __init__(self, repo_owner: str, repo_name: str, github_token: Optional[str] = None):
+    def __init__(self, repo_owner: str, repo_name: str, github_token: Optional[str] = None, dry_run: bool = False):
         self.repo_owner = repo_owner
         self.repo_name = repo_name
         self.github_token = github_token or os.environ.get('GITHUB_TOKEN')
@@ -34,6 +34,7 @@ class PRManager:
         self.merged_prs = []
         self.conflicted_prs = []
         self.api_base = 'https://api.github.com'
+        self.dry_run = dry_run
         
     def run_git_command(self, command: List[str], check=True) -> Tuple[int, str, str]:
         """Run a git command and return the result."""
@@ -78,10 +79,51 @@ class PRManager:
     
     def get_open_prs(self) -> List[Dict]:
         """Fetch open pull requests from GitHub API."""
+        if not self.github_token:
+            print("Warning: No GitHub token provided. Using git branches as fallback.")
+            return self._get_prs_from_branches()
+        
         endpoint = f"/repos/{self.repo_owner}/{self.repo_name}/pulls"
         params = "?state=open&per_page=100"
         prs = self.github_api_request(endpoint + params)
+        
+        if prs is None:
+            print("Warning: GitHub API request failed. Using git branches as fallback.")
+            return self._get_prs_from_branches()
+        
         return prs if prs else []
+    
+    def _get_prs_from_branches(self) -> List[Dict]:
+        """Fallback: Get PRs by examining git branches."""
+        default_branch = self.get_default_branch()
+        returncode, stdout, stderr = self.run_git_command(
+            ['git', 'branch', '-r', '--no-merged', f'{default_branch}']
+        )
+        
+        if returncode != 0:
+            print(f"Error getting branches: {stderr}")
+            return []
+        
+        prs = []
+        for line in stdout.strip().split('\n'):
+            if not line.strip() or 'origin/HEAD' in line:
+                continue
+            
+            branch_name = line.strip().replace('origin/', '')
+            # Skip the default branch, HEAD, and conflicts branches
+            if (branch_name == default_branch or 
+                branch_name.startswith('conflicts/') or
+                'HEAD' in branch_name):
+                continue
+            
+            prs.append({
+                'number': f"branch-{branch_name}",
+                'head': {'ref': branch_name},
+                'base': {'ref': default_branch},
+                'title': f"Branch: {branch_name}"
+            })
+        
+        return prs
     
     def add_pr_comment(self, pr_number: int, comment: str) -> bool:
         """Add a comment to a pull request."""
@@ -134,6 +176,15 @@ class PRManager:
         """
         print(f"\nTesting merge of {pr_branch} into {target_branch}...")
         
+        # Check if working directory is clean
+        returncode, stdout, _ = self.run_git_command(['git', 'status', '--porcelain'])
+        if stdout.strip():
+            print(f"Warning: Working directory has uncommitted changes. Stashing...")
+            self.run_git_command(['git', 'stash', 'push', '-m', 'PR manager auto-stash'])
+            stashed = True
+        else:
+            stashed = False
+        
         # Save current branch
         returncode, current_branch, _ = self.run_git_command(['git', 'branch', '--show-current'])
         current_branch = current_branch.strip()
@@ -146,7 +197,7 @@ class PRManager:
                 return False, []
             
             # Update target branch
-            returncode, _, _ = self.run_git_command(['git', 'pull', 'origin', target_branch])
+            returncode, _, _ = self.run_git_command(['git', 'pull', 'origin', target_branch], check=False)
             
             # Attempt merge with no-commit flag to test
             returncode, stdout, stderr = self.run_git_command(
@@ -177,12 +228,20 @@ class PRManager:
             # Return to original branch
             if current_branch:
                 self.run_git_command(['git', 'checkout', current_branch], check=False)
+            
+            # Restore stashed changes
+            if stashed:
+                self.run_git_command(['git', 'stash', 'pop'], check=False)
     
     def perform_merge(self, pr_branch: str, target_branch: str, pr_number: Optional[int] = None) -> bool:
         """
         Perform the actual merge of a PR branch into target branch.
         """
         print(f"\nMerging {pr_branch} into {target_branch}...")
+        
+        if self.dry_run:
+            print("[DRY RUN] Would merge branch (skipping)")
+            return True
         
         # Checkout target branch
         returncode, _, stderr = self.run_git_command(['git', 'checkout', target_branch])
@@ -219,6 +278,10 @@ class PRManager:
         """Delete a branch both locally and remotely."""
         print(f"Deleting branch {branch_name}...")
         
+        if self.dry_run:
+            print("[DRY RUN] Would delete branch (skipping)")
+            return True
+        
         # Delete local branch if it exists
         self.run_git_command(['git', 'branch', '-D', branch_name], check=False)
         
@@ -241,6 +304,10 @@ class PRManager:
         """
         conflicts_branch = f"conflicts/{pr_branch}"
         print(f"\nCreating conflicts branch: {conflicts_branch}")
+        
+        if self.dry_run:
+            print("[DRY RUN] Would create conflicts branch (skipping)")
+            return True
         
         # Create and checkout new conflicts branch from the PR branch
         returncode, _, stderr = self.run_git_command(
@@ -347,7 +414,7 @@ This conflicts branch was created from: `{}`
                 })
                 
                 # Add comment to PR about conflicts
-                if pr_number != 'N/A':
+                if pr_number != 'N/A' and isinstance(pr_number, int):
                     comment = f"""## Merge Conflicts Detected
 
 This PR has merge conflicts that need to be resolved before it can be merged.
@@ -364,6 +431,8 @@ Please review the conflicts, resolve them, and update this PR. The original PR r
                         print(f"✓ Added comment to PR #{pr_number} about conflicts")
                     else:
                         print(f"✗ Failed to add comment to PR #{pr_number}")
+                elif not isinstance(pr_number, int):
+                    print(f"Note: Skipping PR comment (no API access or PR number unavailable)")
                 
                 print(f"✓ Created conflicts branch for PR #{pr_number}")
             else:
@@ -402,7 +471,22 @@ Please review the conflicts, resolve them, and update this PR. The original PR r
     def run(self):
         """Main execution flow."""
         print("PR Management Agent Starting...")
+        if self.dry_run:
+            print("***** DRY RUN MODE - No changes will be pushed *****")
         print(f"Repository: {self.repo_owner}/{self.repo_name}")
+        
+        # Check git configuration
+        returncode, stdout, _ = self.run_git_command(['git', 'config', 'user.name'], check=False)
+        if returncode != 0 or not stdout.strip():
+            print("Warning: Git user.name is not configured")
+            # Set a default for this run
+            self.run_git_command(['git', 'config', 'user.name', 'PR Manager Bot'], check=False)
+        
+        returncode, stdout, _ = self.run_git_command(['git', 'config', 'user.email'], check=False)
+        if returncode != 0 or not stdout.strip():
+            print("Warning: Git user.email is not configured")
+            # Set a default for this run
+            self.run_git_command(['git', 'config', 'user.email', 'pr-manager@bot.local'], check=False)
         
         # Fetch all branches
         if not self.fetch_all_branches():
@@ -442,10 +526,12 @@ def main():
                         help='Repository name (default: Pentagon-core-100-things)')
     parser.add_argument('--github-token', 
                         help='GitHub personal access token (optional)')
+    parser.add_argument('--dry-run', action='store_true',
+                        help='Test mode - analyze PRs but do not push changes')
     
     args = parser.parse_args()
     
-    manager = PRManager(args.repo_owner, args.repo_name, args.github_token)
+    manager = PRManager(args.repo_owner, args.repo_name, args.github_token, args.dry_run)
     manager.run()
 
 
